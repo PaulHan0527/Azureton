@@ -1,6 +1,6 @@
 import gradio as gr
-from user import User
-from bot import Bot
+from temp.user import User
+from temp.api_keys.bot import Bot
 
 def demo_load(chatbot, chat_state):
 
