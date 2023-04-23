@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { readFileSync } from 'fs';
 import axios from 'axios';
 
 interface UserInfo {
@@ -16,16 +15,6 @@ interface UserInfo {
 };
 
 const Signup: React.FC = () => {
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    id: "",
-    password: "",
-    info: {
-      weight: 0,
-      height: 0,
-      gender: "",
-      age: 0,
-    }
-  });
   const [userExist, setUserExist] = useState(false);
   const navigate = useNavigate();
 
@@ -67,7 +56,6 @@ const Signup: React.FC = () => {
           gender: e.target[5].value,
         }
       };
-      setUserInfo(body);
       await registerUser(body);
 
       navigate('/');
@@ -121,8 +109,8 @@ const Signup: React.FC = () => {
           </div>
           <select name='gender'>
             <option value="">성별을 선택해주세요.</option>
-            <option value="M">남성</option>
-            <option value="F">여성</option>
+            <option value="남성">남성</option>
+            <option value="여성">여성</option>
           </select>
         </div>
         <div className='input-wrapper'>

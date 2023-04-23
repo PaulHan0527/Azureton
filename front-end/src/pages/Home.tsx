@@ -1,17 +1,28 @@
 import styled from "styled-components";
 import Chat from "./Home/Chat";
 import Results from "./Home/Results";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dotenv from "dotenv";
 import axios from "axios";
 
 const CGSE_API_KEY = 'AIzaSyD5i9n2SxJVQGDnTvmWGhSoMCtRyCy_mn0';
 const SEARCH_ENGINE_ID = '4360c8a430fd7457f';
 
-
+interface UserProps {
+    id: string;
+    password: string;
+    info: {
+      weight: number;
+      height: number;
+      gender: string;
+      age: number;
+    };
+  };
+  
 
 type Props = {
     openAiKey: string;
+    user: UserProps|undefined;
 }
 
 
@@ -20,27 +31,48 @@ const Home = (props: Props) => {
     const [sidebarClassName, setSidebarClassName] = useState("sidebar-container closed");
     const [sidebarOpened, setSidebarOpened] = useState(false);
     const [imageResults, setImageResults] = useState({}); // string array of image links
+    const [upperQ, setUpperQ] = useState<string>("");
+    const [bottomQ, setBottomQ] = useState<string>("");
+    const [shoeQ, setShoeQ] = useState<string>("");
+    const [upperItems, setUpperItems] = useState<any>();
+    const [bottomItems, setBottomItems] = useState<any>();
+    const [shoeItems, setShoeItems] = useState<any>();
 
-  const upper_q = '자라의 셔링 디테일 블라우스';
-  const bottom_q = 'skirt';
-  const shoe_q = 'sneakers';
+    useEffect(() => {
+        async function fetchData() {
+            const upper_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${upperQ}&searchType=image&key=${CGSE_API_KEY}`)
+                .then((res) => {
+                    console.log(res.data.items);
+                });
+            return upper_items;
+        }
+        const items = fetchData();
+        setUpperItems(items);
+    }, [upperQ])
 
-  const test = async () => {
-    console.log(123);
-    const top_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${process.env.SEARCH_ENGINE_ID}&num=4&q=${upper_q}&searchType=image&key=${CGSE_API_KEY}`)
-      .then((res) => {
-        console.log(res.data.items);
-      });
-    // const bottom_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${bottom_q}&searchType=image&key=${CGSE_API_KEY}`)
-    // .then((res) => {
-    //   console.log(res.data.items);
-    // });
-    // const shoe_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${shoe_q}&searchType=image&key=${CGSE_API_KEY}`)
-    // .then((res) => {
-    //   console.log(res.data.items);
-    // });
-    console.log(456);
-  }
+    useEffect(() => {
+        async function fetchData() {
+            const bottom_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${bottomQ}&searchType=image&key=${CGSE_API_KEY}`)
+                .then((res) => {
+                    console.log(res.data.items);
+                });
+            return bottom_items;
+        }
+        const items = fetchData();
+        setBottomItems(items);
+    }, [bottomQ])
+
+    useEffect(() => {
+        async function fetchData() {
+            const shoe_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${shoeQ}&searchType=image&key=${CGSE_API_KEY}`)
+                .then((res) => {
+                    console.log(res.data.items);
+                });
+            return shoe_items;
+        }
+        const items = fetchData();
+        setShoeItems(items);
+    }, [shoeQ])
 
     const toggleSideBar = () => {
         if(sidebarClassName.includes("opened")) {
@@ -50,8 +82,6 @@ const Home = (props: Props) => {
             setSidebarClassName("sidebar-container opened")
         }
         setSidebarOpened(!sidebarOpened);
-        test();
-
     }
 
 
@@ -62,13 +92,20 @@ const Home = (props: Props) => {
                 <Chat
                     toggleSideBar={toggleSideBar}
                     sidebarOpened={sidebarOpened}
-                    setImageResults={setImageResults}
+                    setUpperQ={setUpperQ}
+                    setBottomQ={setBottomQ}
+                    setShoeQ={setShoeQ}
+                    openAiKey={props.openAiKey}
+                    user={props.user}
                 />
             </div>
             <div className={sidebarClassName}>
                 <Results
                     toggleSideBar={toggleSideBar}
                     sidebarOpened={sidebarOpened}
+                    upperItems={upperItems}
+                    bottomItems={bottomItems}
+                    shoeItems={shoeItems}
                     imageResults={imageResults}
                 />
             </div>

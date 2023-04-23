@@ -6,14 +6,21 @@ import Signin from "./pages/Signin";
 import Home from "./pages/Home";
 import Api from "./pages/Api";
 
-
+interface UserProps {
+  id: string;
+  password: string;
+  info: {
+    weight: number;
+    height: number;
+    gender: string;
+    age: number;
+  };
+};
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-<<<<<<< HEAD
-=======
   const [openAiKey, setOpenAiKey] = useState("");
->>>>>>> 42e2d173d53da2bbdaf5d683b3b1e4d83ccd257f
+  const [user, setUser] = useState<UserProps|undefined>(undefined);
 
   return (
     <>
@@ -21,6 +28,7 @@ const App = () => {
         loggedIn={loggedIn}
         setLoggedIn={setLoggedIn}
         setOpenAiKey={setOpenAiKey}
+        user={user}
       />
       <Routes>
         <Route path="/signup" element={<Signup 
@@ -30,9 +38,11 @@ const App = () => {
                loggedIn={loggedIn}
                setLoggedIn={setLoggedIn} 
                openAiKey={openAiKey}
+               setUser={setUser}
         />} />
         <Route path="/home" element={<Home 
             openAiKey={openAiKey}
+            user={user}
         />} />
         <Route path="/api" element={<Api
             setOpenAiKey={setOpenAiKey}

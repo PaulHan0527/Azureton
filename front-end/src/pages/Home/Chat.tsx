@@ -11,47 +11,38 @@ import { MessageModel } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.css";
 import { TypingIndicator } from "@chatscope/chat-ui-kit-react";
 
-const OPENAI_API_KEY = "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";
-const OPENAI_API_KEY2 = "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";
 type Props = {
     toggleSideBar: Function;
     sidebarOpened: boolean;
-    setImageResults: Function;
-};
+    setUpperQ: Function;
+    setBottomQ: Function;
+    setShoeQ: Function;
+    openAiKey: string;
+    user: UserProps|undefined;
+}
 
-const instruction_msg_list = [
-    "앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다.' 라고 답변해줘. 그리고 어떤 스타일과 상황에 필요한지 친절하게 물어봐.",
-    "그 상황에서의 날씨를 친절하게 물어봐줘",
-    "가격대를 친절하게 물어봐줘.",
-    "해당 스타일, 상황, 날씨에 맞는 스타일링을 상의 +하의 +신발 형식으로 추천해줘. 예를 들어) 상의: 브랜드명 - 상품명",
-];
-
+interface UserProps {
+    id: string;
+    password: string;
+    info: {
+      weight: number;
+      height: number;
+      gender: string;
+      age: number;
+    };
+  };
 
 const Chat = (props: Props) => {
     const [typing, setTyping] = useState(false);
     const [instructionIdx, setInstructionIdx] = useState(0);
-
-    const [messageStack, setMessageStack] = useState<MessageModel[]>
-        ([
-            // {
-            //     message: "앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다.' 라고 답변해줘. 그리고 어떤 스타일과 상황에 필요한지 친절하게 물어봐.",
-            //     sender: "system",
-            //     direction: "outgoing", // outgoing or incoming
-            //     position: 'single' // 챗 구름 모양
-            // },
-            // {
-            //     message: "안녕하세요",
-            //     sender: "user",
-            //     direction: "outgoing", // outgoing or incoming
-            //     position: 'single' // 챗 구름 모양
-            // }
-            // , {
-            //     message: "안녕하세요 안녕하세요 안녕하세요 안녕하세요",
-            //     sender: "ChatGPT",
-            //     direction: "incoming", // outgoing or incoming
-            //     position: 'single' // 챗 구름 모양
-            // },
-        ]);
+    const { weight, height, gender, age } = props.user ? props.user.info : { weight: 0, height: 0, gender: "", age: 0 };
+    const instruction_msg_list = [
+        "앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다.' 라고 답변해줘. 그리고 어떤 스타일과 상황에 필요한지 친절하게 물어봐.",
+        "그 상황에서의 날씨를 친절하게 물어봐줘",
+        "가격대를 친절하게 물어봐줘.",
+        `길게 말하지 말고 ${weight}kg ${height}cm, ${age}세 ${gender}이 해당 스타일, 상황, 날씨에 맞는 스타일링을 상의 +하의 +신발 형식으로 추천해줘. 예를 들어) 상의: 브랜드명 - 상품명`,
+    ];
+    const [messageStack, setMessageStack] = useState<MessageModel[]>([]);
 
     useEffect(() => {
         handleSend("안녕하세요");
@@ -120,20 +111,28 @@ const Chat = (props: Props) => {
         await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer " + OPENAI_API_KEY2,
+                "Authorization": "Bearer " + props.openAiKey,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(apiRequestBody)
         }).then((data) => {
             return data.json();
         }).then((data) => {
-            console.log(data);
             let responseContent = data.choices[0].message.content;
             let response: MessageModel = {
                 message: responseContent,
                 sender: "ChatGPT",
                 direction: "incoming",
                 position: "single"
+            }
+            if (instructionIdx === 3) {
+                // 챗GPT 답변에서 데이터 넣어주기
+                // const upperData = 
+                // const bottomData = 
+                // const shoeData = 
+                props.setUpperQ();
+                props.setBottomQ();
+                props.setShoeQ();
             }
             setMessageStack(
                 [...messageStack, response]

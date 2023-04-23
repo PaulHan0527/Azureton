@@ -7,24 +7,13 @@ interface Props {
   loggedIn: boolean;
   setLoggedIn: Function;
   openAiKey: string;
-};
-
-interface UserProps {
-  id: string;
-  password: string;
-  info: {
-    weight: number;
-    height: number;
-    gender: string;
-    age: number;
-  };
+  setUser: Function;
 };
 
 const Signin = (props : Props) => {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<UserProps>();
   const [failed, setFailed] = useState(false);
 
   const handleIDChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +50,7 @@ const Signin = (props : Props) => {
       }).catch((e) => {
         console.error(e);
       });
-    setUser(user);
+    props.setUser(user);
     if (loggedIn) {
       return true;
     }

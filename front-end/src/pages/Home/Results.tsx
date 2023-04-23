@@ -4,6 +4,9 @@ type Props = {
     toggleSideBar: Function;
     sidebarOpened: boolean;
     imageResults: object;
+    upperItems: any;
+    bottomItems: any;
+    shoeItems: any;
 }
 
 const Results = (props: Props) => {
@@ -34,6 +37,20 @@ const Results = (props: Props) => {
                             <div className="results-tags">상의</div>
                             <div className="results-container">
                                 {
+                                    // props.upperItems.map((item: any, i: number) => {
+                                    //     return (
+                                    //         <div key={i} className="result-container">
+                                    //             <div className="content-image">
+                                    //                 <img src={item.imageLink} className="images" />
+                                    //             </div>
+                                    //             <div className="result-content-container">
+                                    //                 <div className="content-name">{item.name}</div>
+                                    //                 <div className="content-brand">{item.brand}</div>
+                                    //                 <a className="purchase-link" href={item.purchaseLink} target="_blank">구매하러 가기</a>
+                                    //             </div>
+                                    //         </div>
+                                    //     )
+                                    // })
                                     temp_result.top.map((infoObject: any, i: number) => {
                                         
                                         return (
@@ -55,6 +72,20 @@ const Results = (props: Props) => {
                             <div className="results-tags">하의</div>
                             <div className="results-container">
                                 {
+                                    // props.bottomItems.map((item: any, i: number) => {
+                                    //     return (
+                                    //         <div key={i} className="result-container">
+                                    //             <div className="content-image">
+                                    //                 <img src={item.imageLink} className="images" />
+                                    //             </div>
+                                    //             <div className="result-content-container">
+                                    //                 <div className="content-name">{item.name}</div>
+                                    //                 <div className="content-brand">{item.brand}</div>
+                                    //                 <a className="purchase-link" href={item.purchaseLink} target="_blank">구매하러 가기</a>
+                                    //             </div>
+                                    //         </div>
+                                    //     )
+                                    // })
                                     temp_result.bottom.map((infoObject: any, i: number) => {
                                         
                                         return (
@@ -76,6 +107,20 @@ const Results = (props: Props) => {
                             <div className="results-tags">신발</div>
                             <div className="results-container">
                                 {
+                                    // props.shoeItems.map((item: any, i: number) => {
+                                    //     return (
+                                    //         <div key={i} className="result-container">
+                                    //             <div className="content-image">
+                                    //                 <img src={item.imageLink} className="images" />
+                                    //             </div>
+                                    //             <div className="result-content-container">
+                                    //                 <div className="content-name">{item.name}</div>
+                                    //                 <div className="content-brand">{item.brand}</div>
+                                    //                 <a className="purchase-link" href={item.purchaseLink} target="_blank">구매하러 가기</a>
+                                    //             </div>
+                                    //         </div>
+                                    //     )
+                                    // }
                                     temp_result.shoe.map((infoObject: any, i: number) => {
                                         
                                         return (
