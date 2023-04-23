@@ -17,6 +17,7 @@ type Props = {
     toggleSideBar: Function;
     sidebarOpened: boolean;
     setImageResults: Function;
+    openAiKey: string;
 }
 
 const instruction_msg_list = [

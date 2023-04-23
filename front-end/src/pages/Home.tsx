@@ -63,6 +63,7 @@ const Home = (props: Props) => {
                     toggleSideBar={toggleSideBar}
                     sidebarOpened={sidebarOpened}
                     setImageResults={setImageResults}
+                    openAiKey={props.openAiKey}
                 />
             </div>
             <div className={sidebarClassName}>
