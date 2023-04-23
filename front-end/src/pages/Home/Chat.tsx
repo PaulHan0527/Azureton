@@ -6,41 +6,54 @@ import {
     Message,
     MessageInput,
 } from "@chatscope/chat-ui-kit-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MessageModel } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.css";
 import { TypingIndicator } from "@chatscope/chat-ui-kit-react";
 
-
 const OPENAI_API_KEY = "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";
-
+const OPENAI_API_KEY2 = "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";
 type Props = {
     toggleSideBar: Function;
     sidebarOpened: boolean;
     setImageResults: Function;
 }
 
+const instruction_msg_list = [
+    "앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다.' 라고 답변해줘. 그리고 어떤 스타일과 상황에 필요한지 친절하게 물어봐.",
+    "해당 스타일과 상황에 맞는 스타일링을 상의 +하의 +신발 형식으로 추천해줘"
+]
+
 
 const Chat = (props: Props) => {
     const [typing, setTyping] = useState(false);
+    const [instructionIdx, setInstructionIdx] = useState(0);
 
     const [messageStack, setMessageStack] = useState<MessageModel[]>
         ([
-            {
-                message: "안녕하세요",
-                sender: "user",
-                direction: "outgoing", // outgoing or incoming
-                position: 'single' // 챗 구름 모양
-            }
-            , {
-                message: "안녕하세요 안녕하세요 안녕하세요 안녕하세요",
-                sender: "ChatGPT",
-                direction: "incoming", // outgoing or incoming
-                position: 'single' // 챗 구름 모양
-            },
+            // {
+            //     message: "앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다.' 라고 답변해줘. 그리고 어떤 스타일과 상황에 필요한지 친절하게 물어봐.",
+            //     sender: "system",
+            //     direction: "outgoing", // outgoing or incoming
+            //     position: 'single' // 챗 구름 모양
+            // },
+            // {
+            //     message: "안녕하세요",
+            //     sender: "user",
+            //     direction: "outgoing", // outgoing or incoming
+            //     position: 'single' // 챗 구름 모양
+            // }
+            // , {
+            //     message: "안녕하세요 안녕하세요 안녕하세요 안녕하세요",
+            //     sender: "ChatGPT",
+            //     direction: "incoming", // outgoing or incoming
+            //     position: 'single' // 챗 구름 모양
+            // },
         ]);
 
-
+    useEffect(() => {
+        handleSend("안녕하세요");
+    }, [])
 
     const handleSend = async (message: string) => {
         // console.log(message);
@@ -49,15 +62,19 @@ const Chat = (props: Props) => {
             sender: 'user',
             direction: 'outgoing',
             position: 'single'
-        }
-        const newMessageStack = [...messageStack, newMessage];
+        };
+        const newInstructionMsg: MessageModel = {
+            message: instruction_msg_list[instructionIdx],
+            sender: 'system',
+            direction: 'outgoing',
+            position: 'single'
+        };
+        const newMessageStack = [...messageStack, newMessage, newInstructionMsg];
         setMessageStack(newMessageStack);
         setTyping(true);
+        setInstructionIdx(instructionIdx+1);
         await processMessageToChatGPT(newMessageStack);
     }
-
-
-
 
     /* 
     이 펑션이 여기있는 메세지스택을 (내가 보낸 챗 포함)
@@ -82,6 +99,9 @@ const Chat = (props: Props) => {
             if (messageObject.sender === "ChatGPT") {
                 role = "assistant";
             }
+            else if (messageObject.sender === "system") {
+                role = "system";
+            }
             else {
                 role = "user";
             }
@@ -98,13 +118,14 @@ const Chat = (props: Props) => {
         await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer " + OPENAI_API_KEY,
+                "Authorization": "Bearer " + OPENAI_API_KEY2,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(apiRequestBody)
         }).then((data) => {
             return data.json();
         }).then((data) => {
+            console.log(data);
             let responseContent = data.choices[0].message.content;
             let response: MessageModel = {
                 message: responseContent,
@@ -128,9 +149,10 @@ const Chat = (props: Props) => {
                             typingIndicator={typing ? <TypingIndicator content="ChatGPT is typing" /> : null}
                         >
                             {
-                                messageStack.map((message, i) => {
+                                messageStack.filter((message) =>  message.sender !== "system")
+                                .map((message, i) => {
                                     return (
-                                        <div>
+                                        <div key={i}>
                                             {
                                                 message.sender === "ChatGPT" ?
                                                 <Message.Header sender={message.sender}/> :
@@ -154,7 +176,7 @@ const Chat = (props: Props) => {
                     </ChatContainer>
                 </MainContainer>
 
-                {/* <button onClick={temp}>toggle</button> */}
+                {/* <button onClick={() => {}}>toggle</button> */}
             </div>
         </Container>
     )

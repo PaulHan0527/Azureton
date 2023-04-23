@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import axios from "axios";
-
 
 type Props = {
     toggleSideBar: Function;
@@ -13,13 +11,6 @@ const Results = (props: Props) => {
     const handleClose = () => {
         props.toggleSideBar();
     }
-
-    // const test = async () => {
-    //     await axios.get("https://customsearch.googleapis.com/customsearch/v1?cx=4360c8a430fd7457f&num=4&q=coat&searchType=image&key=AIzaSyD5i9n2SxJVQGDnTvmWGhSoMCtRyCy_mn0 HTTP/1.1")
-    //         .then((res) => {
-    //             console.log(res.data.items);
-    //         });
-    // }
 
     const temp_result = require("./temp_results.json");
 

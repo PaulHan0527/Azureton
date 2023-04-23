@@ -3,24 +3,13 @@ import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
-
 interface Props {
   loggedIn: boolean;
   setLoggedIn: Function;
 };
 
 const Signin = (props : Props) => {
-  const test = async () => {
-    console.log(123);
-    await axios.get("https://customsearch.googleapis.com/customsearch/v1?cx=4360c8a430fd7457f&num=4&q=coat&searchType=image&key=AIzaSyD5i9n2SxJVQGDnTvmWGhSoMCtRyCy_mn0")
-        .then((res) => {
-            console.log(res.data.items);
-        });
-    console.log(456);
-}
   const navigate = useNavigate();
-
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
@@ -84,7 +73,6 @@ const Signin = (props : Props) => {
 
         <button className="submit-button" onClick={submit}>로그인</button>
       </div>
-      <button onClick={test}>구글서치엔진</button>
     </Container>
   );
 };
