@@ -8,14 +8,14 @@ import { useState } from "react";
 const Container = styled.div`
     width: 100vw;
     height: 90vh;
-    /* border: 2px dashed yellow; */
+    border: 2px dashed transparent;
 
     .chat-container {
-        height: 100%;
+        height: 95%;
         /* border: 2px dashed black; */
     }
     .sidebar-container {
-        height: 90vh;
+        height: 85vh;
         margin-top: 10vh;
         width: 0;
         position: fixed;
@@ -30,6 +30,25 @@ const Container = styled.div`
     }
     .closed {
         width: 0;
+    }
+    .button {
+        position: fixed;
+        display: block;
+        top: 2%;
+        right: 10%;
+        z-index: 10 !important;
+        background-color: #77e6ff;
+        color: #000000;
+        height: 5%;
+        width: 7%;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        transition: 0.3s;
+    }
+    .button:hover {
+        cursor: pointer;
+        scale: 1.05;
+        transition: 0.3s;
     }
 `;
 
@@ -69,6 +88,9 @@ const Home = () => {
                     sidebarOpened={sidebarOpened}
                     imageResults={imageResults}
                 />
+            </div>
+            <div className="button-container">
+                <button className="button" onClick={toggleSideBar}>{sidebarOpened ? "결과 닫기" : "결과 보기"}</button>
             </div>
         </Container>
     )
