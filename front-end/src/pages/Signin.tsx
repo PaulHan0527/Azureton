@@ -6,6 +6,7 @@ import axios from "axios";
 interface Props {
   loggedIn: boolean;
   setLoggedIn: Function;
+  openAiKey: string;
 };
 
 const Signin = (props : Props) => {
@@ -29,8 +30,8 @@ const Signin = (props : Props) => {
     if(await authenticate(id, password)) {
       props.setLoggedIn(true);
       setFailed(false);
-      navigate('/home');
-      return;
+      
+      navigate("/api");
     }
     else {
       setFailed(true)
