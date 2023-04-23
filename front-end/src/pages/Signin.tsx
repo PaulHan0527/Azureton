@@ -2,43 +2,7 @@ import styled from "styled-components";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 90vh;
-  .sign-in-container {
-    /* border: 2px dashed black; */
-    height: 50vh;
-    width: 60vw;
-    .sign-in-field {
-      /* border: 2px dashed red; */
-      display: flex;
-      align-items: center;
-      height: 10%;
-    }
-    .submit-button {
-      margin-top: 3ch;
-      float: right;
-      scale: 1.6;
-      border-color: #e8e8e8;
-      border-radius: 21px;
-      background-color: white;
-      cursor: pointer;
-      outline: none;
-      &:hover {
-        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
-      }
-    }
-    input {
-      margin-bottom: 3%;
-      height: 12%;
-      width: 100%;
-      padding-left: 20px;
-      font-size: large;
-    }
-  }
-`;
+
 
 interface Props {
   loggedIn: boolean;
@@ -117,3 +81,41 @@ const Signin = (props : Props) => {
 };
 
 export default Signin;
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  .sign-in-container {
+    /* border: 2px dashed black; */
+    height: 50vh;
+    width: 60vw;
+    .sign-in-field {
+      /* border: 2px dashed red; */
+      display: flex;
+      align-items: center;
+      height: 10%;
+    }
+    .submit-button {
+      margin-top: 3ch;
+      float: right;
+      scale: 1.6;
+      border-color: #e8e8e8;
+      border-radius: 21px;
+      background-color: white;
+      cursor: pointer;
+      outline: none;
+      &:hover {
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
+      }
+    }
+    input {
+      margin-bottom: 3%;
+      height: 12%;
+      width: 100%;
+      padding-left: 20px;
+      font-size: large;
+    }
+  }
+`;
