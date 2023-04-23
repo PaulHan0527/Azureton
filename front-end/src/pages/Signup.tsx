@@ -2,57 +2,62 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { readFileSync } from 'fs';
+import axios from 'axios';
+
+interface UserInfo {
+  id: string;
+  password: string;
+  info: {
+    weight: number;
+    height: number;
+    gender: string;
+    age: number;
+  };
+};
 
 const Signup: React.FC = () => {
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState<UserInfo>({
+    id: "",
+    password: "",
+    info: {
+      weight: 0,
+      height: 0,
+      gender: "",
+      age: 0,
+    }
+  });
   const [userExist, setUserExist] = useState(false);
   const navigate = useNavigate();
 
-  const userExists = (id: string) => {
-    let users = require('../userInfo/users.json');
-    for (let i = 0; i < users.length; i++) {
-      if (users[i].id === id) {
-        return true;
-      }
-    }
-    return false;
+  const userExists = async (id: string) => {
+    return await axios.get(`http://localhost:3001/api/users/${id}`)
+      .then((res)=> {
+        return res.data.data;
+      }).catch((e) => {
+        return false;
+      });
   }
 
-  const registerUser = () => {
-    const data = readFileSync("userInfo/users.json");
-    console.log(data);
-    // let json = require('../userInfo/users.json');
-    // console.log(json);
-    // json.push(userInfo);
-    // console.log(json);
-
-
-    // var rawdata = fs.readFileSync('../userInfo/users.json');
-    // var info = JSON.parse(rawdata);
-    // console.log(info);
-    // fs.readFile('../userInfo/users.json', 'utf8', function readFileCallback(err: any, data: any) {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     let obj = JSON.stringify(data);
-    //     console.log(obj)
-    //     console.log(userInfo);
-    //     // let obj = JSON.parse(data); //now it an object
-    //     // obj.table.push({ id: 2, square: 3 }); //add some data
-    //     // let json = JSON.stringify(obj); //convert it back to json
-    //     // fs.writeFile('myjsonfile.json', json, 'utf8', callback); // write it back 
-    //   }
-    // });
+  const registerUser = async(body: UserInfo) => {
+    console.log(body);
+    
+    await axios.post("http://localhost:3001/api/users", body);
   }
 
-  const onSubmit = (e: any) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
+    
+    // 값이 안 들어간 항목이 있을 때 그냥 종료. ==> 에러메시지 보이게 해야함
+    if (!e.target[0].value || !e.target[1].value || !e.target[2].value ||
+      !e.target[3].value || !e.target[4].value || !e.target[5].value)
+      return;
 
-    if (userExists(e.target[0].value)) {
+    // 유저가 존재하면 이미 존재하는 유저인지 확인
+    if (await userExists(e.target[0].value)) {
       setUserExist(true);
     }
     else {
-      setUserInfo({
+      const body = {
         id: e.target[0].value,
         password: e.target[1].value,
         info: {
@@ -61,10 +66,11 @@ const Signup: React.FC = () => {
           height: e.target[4].value,
           gender: e.target[5].value,
         }
-      });
-      registerUser();
+      };
+      setUserInfo(body);
+      await registerUser(body);
 
-      // navigate('/signin');
+      navigate('/');
     }
   }
 

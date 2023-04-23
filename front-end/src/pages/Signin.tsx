@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 
@@ -23,8 +24,8 @@ const Signin = (props : Props) => {
     setPassword(e.target.value);
   }
 
-  const submit = () => {
-    if(authenticate(id, password)) {
+  const submit = async () => {
+    if(await authenticate(id, password)) {
       props.setLoggedIn(true);
       // Navigate to HOMEPAGE!!
       navigate('/home');
@@ -33,20 +34,19 @@ const Signin = (props : Props) => {
     }
   }
 
-  const userExists = (id: string) => {
-    let users = require('../userInfo/users.json');
-    for(let i = 0; i < users.length; i++) {
-      if(users[i].id === id) {
-        return users[i];
-      }
-    }
-    return {};
-  }
+  const authenticate = async (id: string, password: string) : Promise<boolean> => {
+    const body = {
+      id,
+      password,
+    };
+    const { user, loggedIn } = await axios.post("http://localhost:3001/api/login", body)
+      .then((res) => {
+        return res.data.data;
+      }).catch((e) => {
+        console.error(e);
+      });
 
-  const authenticate = (id: string, password: string) : boolean => {
-    let user = userExists(id);
-    console.log(user);
-    if(Object.keys(user).length !== 0 && user.password === password) {
+    if (loggedIn) {
       return true;
     }
     return false;
