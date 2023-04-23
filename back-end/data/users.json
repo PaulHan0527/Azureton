@@ -1,1 +1,1 @@
-[{"id":"1","password":"1","info":{"weight":60,"height":172,"gender":"M","age":22}},{"id":"2","password":"2","info":{"weight":43,"height":155,"gender":"F","age":30}},{"id":"3","password":"3","info":{"weight":46,"height":160,"gender":"f","age":27}}]
+[{"id":"1","password":"1","info":{"weight":60,"height":172,"gender":"M","age":22}},{"id":"2","password":"2","info":{"weight":43,"height":155,"gender":"F","age":30}},{"id":"3","password":"3","info":{"weight":"3","height":"3","gender":"M","age":"3"}}]

@@ -10,6 +10,11 @@ const getList = () => {
   return users;
 };
 
+const getOne = (id) => {
+  const users = getList();
+  return users.filter((user) => user.id === id)[0];
+}
+
 const exist = (id) => {
   const users = getList();
   const user = users.some((user) => user.id === id);
@@ -21,11 +26,10 @@ const write = (data) => {
 }
 
 const authenticate = (id, password) => {
-  const users = getList();
-  const user = users.som((user) => user.id === id);
-  if (user.password === password)
-    return user;
-  return {};
+  if (exist(id)) {
+    const user = getOne(id);
+    return password === user.password;
+  }
 }
 
-module.exports = { getList, exist, write, authenticate };
+module.exports = { getList, exist, write, authenticate, getOne };

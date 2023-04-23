@@ -1,11 +1,14 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+var cors = require("cors");
 const fs = require("fs");
-const { getList, exist, write, authenticate } = require("./lib/user");
+const { getList, exist, write, authenticate, getOne } = require("./lib/user");
 
 const PORT = 3001;
 
 const app = express();
+
+app.use(cors());
 
 // parser application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -48,12 +51,18 @@ app.post("/api/users", (req, res) => {
   res.json({message: "success", data: data});
 });
 
-app.post("api/login", (req, res) => {
-  const { id, password } = req.body;
-  const user = authenticate(id, password);
+app.get("/api/users/:id", (req, res) => {
+  const params = req.params
+  const user = exist(params.id);
+  res.json({ message: "", data: user });
+});
 
-  if (user) {
-    res.json({ message: "success", data: user });
+app.post("/api/login", (req, res) => {
+  const { id, password } = req.body;
+  const loggedIn = authenticate(id, password);
+  if (loggedIn) {
+    const user = getOne(id);
+    return res.json({ message: "success", data: { user, loggedIn } })
   }
-  res.json({ message:"fail", data: {} });
+  return res.json({ message:"fail", data: { user: {}, loggedIn }});
 });
