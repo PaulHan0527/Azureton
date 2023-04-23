@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Chat from "./Home/Chat";
 import Results from "./Home/Results";
 import { useState, useEffect } from "react";
-import dotenv from "dotenv";
 import axios from "axios";
 
 const CGSE_API_KEY = 'AIzaSyD5i9n2SxJVQGDnTvmWGhSoMCtRyCy_mn0';
@@ -39,6 +38,7 @@ const Home = (props: Props) => {
     const [shoeItems, setShoeItems] = useState<any>();
 
     useEffect(() => {
+        if (upperQ === "") return;
         async function fetchData() {
             const upper_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${upperQ}&searchType=image&key=${CGSE_API_KEY}`)
                 .then((res) => {
@@ -51,6 +51,7 @@ const Home = (props: Props) => {
     }, [upperQ])
 
     useEffect(() => {
+        if (bottomQ === "") return;
         async function fetchData() {
             const bottom_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${bottomQ}&searchType=image&key=${CGSE_API_KEY}`)
                 .then((res) => {
@@ -63,6 +64,7 @@ const Home = (props: Props) => {
     }, [bottomQ])
 
     useEffect(() => {
+        if (shoeQ === "") return;
         async function fetchData() {
             const shoe_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${shoeQ}&searchType=image&key=${CGSE_API_KEY}`)
                 .then((res) => {

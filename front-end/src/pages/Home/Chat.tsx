@@ -40,7 +40,7 @@ const Chat = (props: Props) => {
         "앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다.' 라고 답변해줘. 그리고 어떤 스타일과 상황에 필요한지 친절하게 물어봐.",
         "그 상황에서의 날씨를 친절하게 물어봐줘",
         "가격대를 친절하게 물어봐줘.",
-        `길게 말하지 말고 ${weight}kg ${height}cm, ${age}세 ${gender}이 해당 스타일, 상황, 날씨에 맞는 스타일링을 상의 +하의 +신발 형식으로 추천해줘. 예를 들어) 상의: 브랜드명 - 상품명`,
+        `길게 말하지 말고 ${weight}kg ${height}cm, ${age}세 ${gender}이 해당 스타일, 상황, 날씨에 맞는 스타일링을 상의 +하의 +신발 형식으로 추천해줘. 예를 들어) 1. 상의: 브랜드명 - 상품명\n2. 하의: 브랜드명 - 상품명\n3. 신발: 브랜드명 - 상품명`,
     ];
     const [messageStack, setMessageStack] = useState<MessageModel[]>([]);
 
@@ -118,6 +118,7 @@ const Chat = (props: Props) => {
         }).then((data) => {
             return data.json();
         }).then((data) => {
+            console.log(data);
             let responseContent = data.choices[0].message.content;
             let response: MessageModel = {
                 message: responseContent,
@@ -130,6 +131,8 @@ const Chat = (props: Props) => {
                 // const upperData = 
                 // const bottomData = 
                 // const shoeData = 
+                console.log('===================')
+                console.log(responseContent);
                 props.setUpperQ();
                 props.setBottomQ();
                 props.setShoeQ();
