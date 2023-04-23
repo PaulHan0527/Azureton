@@ -39,6 +39,7 @@ const Home = () => {
 
     const [sidebarClassName, setSidebarClassName] = useState("sidebar-container closed");
     const [sidebarOpened, setSidebarOpened] = useState(false);
+    const [imageResults, setImageResults] = useState([]); // string array of image links
 
     const toggleSideBar = () => {
         if(sidebarClassName.includes("opened")) {
@@ -59,12 +60,14 @@ const Home = () => {
                 <Chat
                     toggleSideBar={toggleSideBar}
                     sidebarOpened={sidebarOpened}
+                    setImageResults={setImageResults}
                 />
             </div>
             <div className={sidebarClassName}>
                 <Results
                     toggleSideBar={toggleSideBar}
                     sidebarOpened={sidebarOpened}
+                    imageResults={imageResults}
                 />
             </div>
         </Container>

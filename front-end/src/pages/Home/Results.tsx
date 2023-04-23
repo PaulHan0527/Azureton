@@ -44,6 +44,7 @@ const Container = styled.div`
 type Props = {
     toggleSideBar: Function;
     sidebarOpened: boolean;
+    imageResults: string[];
 }
 
 

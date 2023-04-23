@@ -65,20 +65,22 @@ const Header: React.FC<IProps> = (props: IProps) => {
     if(props.loggedIn) {
       // logout
       props.setLoggedIn(false);
-      navigate("/signin");
+      navigate("/");
     }
     else {
       // login
-      navigate("/signin");
+      navigate("/");
     }
   }
   return (
     <Container>
       <div className="header-logo-wrapper">
-        <Link className="header-logo" to="/">Logo</Link>
+        <div className="header-logo">Logo</div>
       </div>
       <div className="header-auth-buttons">
-        <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
+        {
+          props.loggedIn ? <></> : <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
+        }
         <button type="button" className="header-signin-button" onClick={handleLogInButton}>{props.loggedIn ? "로그아웃" : "로그인"}</button>
       </div>
     </Container>
