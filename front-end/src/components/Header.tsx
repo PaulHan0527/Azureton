@@ -13,6 +13,7 @@ const Header: React.FC<IProps> = (props: IProps) => {
 
   const handleLogOutButton = () => {
     props.setLoggedIn(false);
+    props.setOpenAiKey("");
     console.log(props.loggedIn);
     navigate("/");
   }
