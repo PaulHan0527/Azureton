@@ -35,6 +35,10 @@ const Api = (props: Props) => {
                 <input className="key-input" onChange={handleOpenAIChange} onKeyDown={handleKeyDown} value={input}/>
                 <button className="key-button"onClick={handleSubmit} >확인</button>
             </div>
+
+            <div className="instruction-container">
+                <div><a href="https://platform.openai.com/" target="_blank">OpenAI</a> 플랫폼으로 이동하여 로그인하여 API Token을 생성해주시고 넣어주세요.</div>
+            </div>
         </Container>
 
     )
@@ -50,7 +54,7 @@ const Container = styled.div`
     .key-container {
         /* border: 2px dashed yellow; */
         margin: 5%;
-        height: 20vh;
+        height: 40vh;
     }
     .key-title {
         margin-top: 2%;
@@ -63,5 +67,13 @@ const Container = styled.div`
     .key-button {
         float: right;
         margin-top: 2%;
+    }
+
+    .instruction-container {
+        border: 2px solid black;
+        height: 30vh;
+        padding: 3%;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
+        border-radius: 10px;
     }
 `;
