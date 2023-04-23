@@ -12,29 +12,7 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.css";
 import { TypingIndicator } from "@chatscope/chat-ui-kit-react";
 
 
-const OPENAI_API_KEY = "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";
-
-const Container = styled.div`
-    width: 100%;
-    height: 100%;
-
-    .chatbot-container {
-        background-color: white;
-        border: black 1px;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        height: 95%;
-        margin: 1%;
-        border-radius: 20px;
-        padding: 3%;
-    }
-
-    .outgoing-message {
-        font-size: larger;
-    }
-    .incoming-message {
-        font-size: larger;
-    }
-`;
+const OPENAI_API_KEY = "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";
 
 type Props = {
     toggleSideBar: Function;
@@ -90,7 +68,7 @@ const Chat = (props: Props) => {
     5. (해야할 것) 구글 서치 엔진 api 콜해서 이미지 가져오기
     6. (해야할 것) 그 이미지들 (링크들) 정리해서 props.setImageResults 로 링크들 다 넣어주기
     7. (해야할 것) 이미지 다 받았으면, props.toggleSideBar 콜해서 사이드바 열어주기 
-    참고*** 
+    참고***
     여기에서 인스트럭션(시나리오 / 몸무게 / 키 등 environment variable) 짜서 어딘가에 (어딘지모름) 넣어놔야합니다 
     인스트럭션 하면서 저번에 말했던 {role, content} 형식으로 저장을 해놓을지 말지 이야기해봐야해용 
     타입스크립트라 .... 만약 한다면 인터페이스 만들어주고 그걸로 쓰는게 나을듯
@@ -182,3 +160,25 @@ const Chat = (props: Props) => {
     )
 }
 export default Chat;
+
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+
+    .chatbot-container {
+        background-color: white;
+        border: black 1px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        height: 95%;
+        margin: 1%;
+        border-radius: 20px;
+        padding: 3%;
+    }
+
+    .outgoing-message {
+        font-size: larger;
+    }
+    .incoming-message {
+        font-size: larger;
+    }
+`;

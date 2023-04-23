@@ -1,6 +1,44 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 
+
+interface IProps {
+  loggedIn: boolean;
+  setLoggedIn: Function;
+};
+
+const Header: React.FC<IProps> = (props: IProps) => {
+  const navigate = useNavigate();
+
+
+  const handleLogInButton = () => {
+    if(props.loggedIn) {
+      // logout
+      props.setLoggedIn(false);
+      navigate("/");
+    }
+    else {
+      // login
+      navigate("/");
+    }
+  }
+  return (
+    <Container>
+      <div className="header-logo-wrapper">
+        <div className="header-logo">Logo</div>
+      </div>
+      <div className="header-auth-buttons">
+        {
+          props.loggedIn ? <></> : <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
+        }
+        <button type="button" className="header-signin-button" onClick={handleLogInButton}>{props.loggedIn ? "로그아웃" : "로그인"}</button>
+      </div>
+    </Container>
+  )
+};
+
+export default Header;
+
 const Container = styled.div`
   position: sticky;
   top: 0;
@@ -51,40 +89,3 @@ const Container = styled.div`
     }
   }
 `;
-
-interface IProps {
-  loggedIn: boolean;
-  setLoggedIn: Function;
-};
-
-const Header: React.FC<IProps> = (props: IProps) => {
-  const navigate = useNavigate();
-
-
-  const handleLogInButton = () => {
-    if(props.loggedIn) {
-      // logout
-      props.setLoggedIn(false);
-      navigate("/");
-    }
-    else {
-      // login
-      navigate("/");
-    }
-  }
-  return (
-    <Container>
-      <div className="header-logo-wrapper">
-        <div className="header-logo">Logo</div>
-      </div>
-      <div className="header-auth-buttons">
-        {
-          props.loggedIn ? <></> : <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
-        }
-        <button type="button" className="header-signin-button" onClick={handleLogInButton}>{props.loggedIn ? "로그아웃" : "로그인"}</button>
-      </div>
-    </Container>
-  )
-};
-
-export default Header;

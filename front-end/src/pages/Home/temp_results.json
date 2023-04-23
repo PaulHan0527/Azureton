@@ -1,0 +1,106 @@
+{
+    "top": [
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "upper_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "upper_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "upper_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "upper_name",
+            "brand": "brand"
+        }
+    ],
+    "bottom": [
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "bottom_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "bottom_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "bottom_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "bottom_name",
+            "brand": "brand"
+        }
+    ],
+    "shoe": [
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "shoe_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "shoe_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "shoe_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "shoe_name",
+            "brand": "brand"
+        }
+    ],
+    "accessory": [
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "accessory_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "accessory_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "accessory_name",
+            "brand": "brand"
+        },
+        {
+            "imageLink": "https://picsum.photos/150/150",
+            "purchaseLink": "https://global.musinsa.com/us/main",
+            "name": "accessory_name",
+            "brand": "brand"
+        }
+    ]
+}

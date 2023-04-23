@@ -4,6 +4,48 @@ import Results from "./Home/Results";
 import { useState } from "react";
 
 
+const Home = () => {
+
+    const [sidebarClassName, setSidebarClassName] = useState("sidebar-container closed");
+    const [sidebarOpened, setSidebarOpened] = useState(false);
+    const [imageResults, setImageResults] = useState({}); // string array of image links
+
+    const toggleSideBar = () => {
+        if(sidebarClassName.includes("opened")) {
+            setSidebarClassName("sidebar-container closed");
+        }
+        else {
+            setSidebarClassName("sidebar-container opened")
+        }
+        setSidebarOpened(!sidebarOpened);
+
+    }
+
+
+
+    return (
+        <Container>
+            <div className="chat-container">
+                <Chat
+                    toggleSideBar={toggleSideBar}
+                    sidebarOpened={sidebarOpened}
+                    setImageResults={setImageResults}
+                />
+            </div>
+            <div className={sidebarClassName}>
+                <Results
+                    toggleSideBar={toggleSideBar}
+                    sidebarOpened={sidebarOpened}
+                    imageResults={imageResults}
+                />
+            </div>
+            <div className="button-container">
+                <button className="button" onClick={toggleSideBar}>{sidebarOpened ? "결과 닫기" : "결과 보기"}</button>
+            </div>
+        </Container>
+    )
+}
+export default Home;
 
 const Container = styled.div`
     width: 100vw;
@@ -51,48 +93,3 @@ const Container = styled.div`
         transition: 0.3s;
     }
 `;
-
-
-
-const Home = () => {
-
-    const [sidebarClassName, setSidebarClassName] = useState("sidebar-container closed");
-    const [sidebarOpened, setSidebarOpened] = useState(false);
-    const [imageResults, setImageResults] = useState([]); // string array of image links
-
-    const toggleSideBar = () => {
-        if(sidebarClassName.includes("opened")) {
-            setSidebarClassName("sidebar-container closed");
-        }
-        else {
-            setSidebarClassName("sidebar-container opened")
-        }
-        setSidebarOpened(!sidebarOpened);
-
-    }
-
-
-
-    return (
-        <Container>
-            <div className="chat-container">
-                <Chat
-                    toggleSideBar={toggleSideBar}
-                    sidebarOpened={sidebarOpened}
-                    setImageResults={setImageResults}
-                />
-            </div>
-            <div className={sidebarClassName}>
-                <Results
-                    toggleSideBar={toggleSideBar}
-                    sidebarOpened={sidebarOpened}
-                    imageResults={imageResults}
-                />
-            </div>
-            <div className="button-container">
-                <button className="button" onClick={toggleSideBar}>{sidebarOpened ? "결과 닫기" : "결과 보기"}</button>
-            </div>
-        </Container>
-    )
-}
-export default Home;
