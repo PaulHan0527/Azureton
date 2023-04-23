@@ -5,7 +5,7 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   width: 100%;
-  height: 80px;
+  height: 10vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,11 +50,28 @@ const Container = styled.div`
       }
     }
   }
-`
+`;
 
-const Header: React.FC = () => {
+interface IProps {
+  loggedIn: boolean;
+  setLoggedIn: Function;
+};
+
+const Header: React.FC<IProps> = (props: IProps) => {
   const navigate = useNavigate();
 
+
+  const handleLogInButton = () => {
+    if(props.loggedIn) {
+      // logout
+      props.setLoggedIn(false);
+      navigate("/signin");
+    }
+    else {
+      // login
+      navigate("/signin");
+    }
+  }
   return (
     <Container>
       <div className="header-logo-wrapper">
@@ -62,7 +79,7 @@ const Header: React.FC = () => {
       </div>
       <div className="header-auth-buttons">
         <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
-        <button type="button" className="header-signin-button" onClick={() => navigate('/signin')}>로그인</button>
+        <button type="button" className="header-signin-button" onClick={handleLogInButton}>{props.loggedIn ? "로그아웃" : "로그인"}</button>
       </div>
     </Container>
   )

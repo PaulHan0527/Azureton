@@ -20,11 +20,14 @@ const globalStyle = css`
 const GlobalStyle = createGlobalStyle`
   ${globalStyle};
 `;
+
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <GlobalStyle/>
-      <App />
+      <App 
+      />
     </BrowserRouter>
   </React.StrictMode>
 );
