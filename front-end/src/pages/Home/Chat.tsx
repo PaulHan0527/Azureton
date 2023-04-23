@@ -12,7 +12,7 @@ import "@chatscope/chat-ui-kit-styles/dist/default/styles.css";
 import { TypingIndicator } from "@chatscope/chat-ui-kit-react";
 
 
-const API_KEY = "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";
+const OPENAI_API_KEY = "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";
 
 const Container = styled.div`
     width: 100%;
@@ -120,7 +120,7 @@ const Chat = (props: Props) => {
         await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer " + API_KEY,
+                "Authorization": "Bearer " + OPENAI_API_KEY,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(apiRequestBody)
