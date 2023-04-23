@@ -5,22 +5,21 @@ import { Link, useNavigate } from "react-router-dom";
 interface IProps {
   loggedIn: boolean;
   setLoggedIn: Function;
+  setOpenAiKey: Function;
 };
 
 const Header: React.FC<IProps> = (props: IProps) => {
   const navigate = useNavigate();
 
+  const handleLogOutButton = () => {
+    props.setLoggedIn(false);
+    props.setOpenAiKey("");
+    console.log(props.loggedIn);
+    navigate("/");
+  }
 
   const handleLogInButton = () => {
-    if(props.loggedIn) {
-      // logout
-      props.setLoggedIn(false);
-      navigate("/");
-    }
-    else {
-      // login
-      navigate("/");
-    }
+    navigate('/');
   }
   return (
     <Container>
@@ -31,7 +30,13 @@ const Header: React.FC<IProps> = (props: IProps) => {
         {
           props.loggedIn ? <></> : <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
         }
-        <button type="button" className="header-signin-button" onClick={handleLogInButton}>{props.loggedIn ? "로그아웃" : "로그인"}</button>
+        {
+          props.loggedIn ? 
+          <button type="button" className="header-signin-button" onClick={handleLogOutButton}>로그아웃</button>
+          :
+          <button type="button" className="header-signin-button" onClick={handleLogInButton}>로그인</button>
+        }
+        
       </div>
     </Container>
   )

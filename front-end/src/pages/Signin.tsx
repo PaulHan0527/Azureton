@@ -6,6 +6,7 @@ import axios from "axios";
 interface Props {
   loggedIn: boolean;
   setLoggedIn: Function;
+  openAiKey: string;
 };
 
 interface UserProps {
@@ -24,9 +25,14 @@ const Signin = (props : Props) => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState<UserProps>();
+  const [failed, setFailed] = useState(false);
 
   const handleIDChange = (e: ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
+    if(e.target.value.length === 0) {
+      setFailed(false);
+    }
+
   }
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -35,10 +41,12 @@ const Signin = (props : Props) => {
   const submit = async () => {
     if(await authenticate(id, password)) {
       props.setLoggedIn(true);
-      // Navigate to HOMEPAGE!!
-      navigate('/home');
-      console.log("Authenticated, and Logged In!!")
-      return;
+      setFailed(false);
+      
+      navigate("/api");
+    }
+    else {
+      setFailed(true)
     }
   }
 
@@ -74,7 +82,9 @@ const Signin = (props : Props) => {
                id='username' placeholder="아이디" 
                onChange={handleIDChange} value={id}
                onKeyDown={handleKeyDown}/>
-
+        {
+          failed ? <div style={{color: "red", marginBottom: "2%"}}>해당 아이디는 존재하지 않습니다!</div> : <></>
+        }
         <div className="sign-in-field">비밀번호</div>
         <input type="password" className='form-input' 
                id='password' placeholder="비밀번호" 

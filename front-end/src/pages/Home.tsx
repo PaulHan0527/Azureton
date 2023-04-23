@@ -8,7 +8,14 @@ import axios from "axios";
 const CGSE_API_KEY = 'AIzaSyD5i9n2SxJVQGDnTvmWGhSoMCtRyCy_mn0';
 const SEARCH_ENGINE_ID = '4360c8a430fd7457f';
 
-const Home = () => {
+
+
+type Props = {
+    openAiKey: string;
+}
+
+
+const Home = (props: Props) => {
 
     const [sidebarClassName, setSidebarClassName] = useState("sidebar-container closed");
     const [sidebarOpened, setSidebarOpened] = useState(false);
