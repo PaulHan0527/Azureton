@@ -14,16 +14,16 @@ const Home = () => {
     const [sidebarOpened, setSidebarOpened] = useState(false);
     const [imageResults, setImageResults] = useState({}); // string array of image links
 
-  const upper_q = 'coat';
+  const upper_q = '자라의 셔링 디테일 블라우스';
   const bottom_q = 'skirt';
   const shoe_q = 'sneakers';
 
   const test = async () => {
     console.log(123);
-    // const top_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${process.env.SEARCH_ENGINE_ID}&num=4&q=${upper_q}&searchType=image&key=${CGSE_API_KEY}`)
-    //   .then((res) => {
-    //     console.log(res.data.items);
-    //   });
+    const top_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${process.env.SEARCH_ENGINE_ID}&num=4&q=${upper_q}&searchType=image&key=${CGSE_API_KEY}`)
+      .then((res) => {
+        console.log(res.data.items);
+      });
     // const bottom_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${bottom_q}&searchType=image&key=${CGSE_API_KEY}`)
     // .then((res) => {
     //   console.log(res.data.items);

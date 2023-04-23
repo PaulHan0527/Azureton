@@ -8,14 +8,25 @@ interface Props {
   setLoggedIn: Function;
 };
 
+interface UserProps {
+  id: string;
+  password: string;
+  info: {
+    weight: number;
+    height: number;
+    gender: string;
+    age: number;
+  };
+};
+
 const Signin = (props : Props) => {
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState<UserProps>();
 
   const handleIDChange = (e: ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
-
   }
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -42,7 +53,7 @@ const Signin = (props : Props) => {
       }).catch((e) => {
         console.error(e);
       });
-
+    setUser(user);
     if (loggedIn) {
       return true;
     }

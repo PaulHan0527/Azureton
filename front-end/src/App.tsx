@@ -10,7 +10,6 @@ import Home from "./pages/Home";
 const App = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
-
   return (
     <>
       <Header 
