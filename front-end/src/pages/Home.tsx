@@ -3,6 +3,7 @@ import Chat from "./Home/Chat";
 import Results from "./Home/Results";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import palette from "../styles/palette";
 
 const CGSE_API_KEY = 'AIzaSyACk1j4ykLa2XigflStxoTGU8-3pCRngy4';
 const SEARCH_ENGINE_ID = 'd0e49ce76120644d5';
@@ -33,18 +34,18 @@ const Home = (props: Props) => {
     const [sidebarClassName, setSidebarClassName] = useState("sidebar-container closed");
     const [sidebarOpened, setSidebarOpened] = useState(false);
     const [imageResults, setImageResults] = useState({}); // string array of image links
-    const [upperQ, setUpperQ] = useState<string>("");
-    const [bottomQ, setBottomQ] = useState<string>("");
-    const [shoeQ, setShoeQ] = useState<string>("");
+    const [upperQ, setUpperQ] = useState<any>("");
+    const [bottomQ, setBottomQ] = useState<any>("");
+    const [shoeQ, setShoeQ] = useState<any>("");
     const [upperItem, setUpperItem] = useState<any>();
     const [bottomItem, setBottomItem] = useState<any>();
     const [shoeItem, setShoeItem] = useState<any>();
     const [insIndex, setInsIndex] = useState(0);
 
     useEffect(() => {
-        if (upperQ === "") return;
+        if (upperQ === "") return setUpperQ("");
         async function fetchData() {
-            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${upperQ}&searchType=image&key=${CGSE_API_KEY}`)
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${upperQ.name}&searchType=image&key=${CGSE_API_KEY}`)
                 .then((res) => {
                     // res.data.items[0].image.thumbnailLink - 사진링크
                     // res.data.items[0].image.contextLink - 구매링크
@@ -52,7 +53,9 @@ const Home = (props: Props) => {
                     setUpperItem({
                         thumbnail_link: res.data.items[0].image.thumbnailLink,
                         purchase_link: res.data.items[0].image.contextLink,
-                        name: upperQ
+                        name: upperQ.name,
+                        price: upperQ.price,
+                        introduction: upperQ.introduction,
                     })
                 });
         }
@@ -60,14 +63,16 @@ const Home = (props: Props) => {
     }, [upperQ]);
 
     useEffect(() => {
-        if (bottomQ === "") return;
+        if (bottomQ === "") return setBottomQ("");
         async function fetchData() {
-            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${bottomQ}&searchType=image&key=${CGSE_API_KEY}`)
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${bottomQ.name}&searchType=image&key=${CGSE_API_KEY}`)
                 .then((res) => {
                     setBottomItem({
                         thumbnail_link: res.data.items[0].image.thumbnailLink,
                         purchase_link: res.data.items[0].image.contextLink,
-                        name: bottomQ
+                        name: bottomQ.name,
+                        price: bottomQ.price,
+                        introduction: bottomQ.introduction,
                     })
                 });
         }
@@ -75,14 +80,16 @@ const Home = (props: Props) => {
     }, [bottomQ]);
 
     useEffect(() => {
-        if (shoeQ === "") return;
+        if (shoeQ === "") return setShoeQ("");
         async function fetchData() {
-            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${shoeQ}&searchType=image&key=${CGSE_API_KEY}`)
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${shoeQ.name}&searchType=image&key=${CGSE_API_KEY}`)
                 .then((res) => {
                     setShoeItem({
                         thumbnail_link: res.data.items[0].image.thumbnailLink,
                         purchase_link: res.data.items[0].image.contextLink,
-                        name: shoeQ
+                        name: shoeQ.name,
+                        price: shoeQ.price,
+                        introduction: shoeQ.introduction,
                     })
                 });
         }
@@ -181,7 +188,7 @@ const Container = styled.div`
         display: flex;
         justify-content: center;
         z-index: 100;
-        background-color: #77e6ff;
+        background-color: ${palette.iron};
         color: #000000;
         height: 5%;
         width: 7%;

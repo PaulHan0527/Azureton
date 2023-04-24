@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as ScrewbarLogo } from "../public/logo.svg";
+import palette from "../styles/palette";
 
 interface UserProps {
   id: string;
@@ -40,18 +41,18 @@ const Header: React.FC<IProps> = (props: IProps) => {
       </div>
       <div className="header-auth-buttons">
         {
-          props.loggedIn ? <></> : <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
+          props.loggedIn
+            ? 
+              <div className="logged-in">
+                <div className="welcome-user"><span>{ props.user && props.user.id }</span>님 환영합니다</div>
+                <button type="button" className="header-signin-button" onClick={handleLogOutButton}>로그아웃</button>
+              </div>
+            :
+              <div className="logged-out">
+                <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
+                <button type="button" className="header-signin-button" onClick={handleLogInButton}>로그인</button>
+              </div>
         }
-        {
-          props.loggedIn ? 
-          <>
-            <div>{ props.user && props.user.id }님 환영합니다.</div>
-            <button type="button" className="header-signin-button" onClick={handleLogOutButton}>로그아웃</button>
-          </>
-          :
-          <button type="button" className="header-signin-button" onClick={handleLogInButton}>로그인</button>
-        }
-        
       </div>
     </Container>
   )
@@ -84,13 +85,23 @@ const Container = styled.div`
   }
 
   .header-auth-buttons {
+    .logged-in {
+      display: flex;
+      align-items: center;
+      .welcome-user {
+        margin-right: 8px;
+        span {
+          font-weight: bold;
+        }
+      }
+    }
     .header-signup-button {
       height: 42px;
       margin-right: 8px;
       padding: 0 16px;
       border: 0;
       border-radius: 21px;
-      background-color: white;
+      background-color: ${palette.iron};
       cursor: pointer;
       outline: none;
       text-decoration: none;
@@ -103,7 +114,7 @@ const Container = styled.div`
       padding: 0 16px;
       border: 0;
       border-radius: 21px;
-      background-color: white;
+      background-color: ${palette.iron};
       cursor: pointer;
       outline: none;
       &:hover {
