@@ -62,7 +62,7 @@ const Home = (props: Props) => {
     useEffect(() => {
         if (bottomQ === "") return setBottomQ("");
         async function fetchData() {
-            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${bottomQ.name}&searchType=image&key=${CGSE_API_KEY}`)
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${bottomQ.name}&searchType=image&key=${GSE_API_KEY}`)
                 .then((res) => {
                     setBottomItem({
                         thumbnail_link: res.data.items[0].image.thumbnailLink,
@@ -79,7 +79,7 @@ const Home = (props: Props) => {
     useEffect(() => {
         if (shoeQ === "") return setShoeQ("");
         async function fetchData() {
-            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${shoeQ.name}&searchType=image&key=${CGSE_API_KEY}`)
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${shoeQ.name}&searchType=image&key=${GSE_API_KEY}`)
                 .then((res) => {
                     setShoeItem({
                         thumbnail_link: res.data.items[0].image.thumbnailLink,
