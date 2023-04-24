@@ -19,6 +19,7 @@ type Props = {
     setShoeQ: Function;
     openAiKey: string;
     user: UserProps | undefined;
+    setInsIndex: Function;
 }
 
 interface UserProps {
@@ -38,16 +39,22 @@ const Chat = (props: Props) => {
     const [resetButton, setResetButton] = useState(false);
     const { weight, height, gender, age } = props.user ? props.user.info : { weight: 0, height: 0, gender: "", age: 0 };
     const instruction_msg_list = [
-        "앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다.' 라고 답변해줘. 그리고 어떤 스타일과 상황에 필요한지 친절하게 물어봐.",
-        "그 상황에서의 날씨를 친절하게 물어봐줘",
-        "가격대를 친절하게 물어봐줘.",
-        `길게 말하지 말고 ${weight}kg ${height}cm, ${age}세 ${gender}이 해당 스타일, 상황, 날씨에 맞는 스타일링을 상의 +하의 +신발 형식으로 추천해줘. 예를 들어) 1. 상의: 브랜드명 - 상품명\n2. 하의: 브랜드명 - 상품명\n3. 신발: 브랜드명 - 상품명`,
+        `너는 패션 스타일링 전문가야, 사용자는 ${weight}kg ${height}cm, ${age}세 ${gender}이야, 앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다. 어떤 상황에서 입고갈지 말씀해주세요.' 라고 답변해줘.`,
+        "날씨만 짧게 질문해줘. 다른 것은 묻지 말아줘.",
+        `${gender}인 사용자가 어떤 패션 스타일을 원하는지 짧게 질문해줘.`,
+        "사용자가 원하는 가격대만 짧게 질문해줘. 예시는 들지 말아줘",
+        `사용자의 몸무게와 키와 나이와 성별을 간단하게 말해줘. 그 다음 짧게 ${weight}kg ${height}cm, ${age}세 ${gender}이 해당 스타일, 상황, 날씨에 맞는 상의, 하의, 신발을 하나씩만 유명한 브랜드 위주로 추천해줘. 브랜드명은 영어로 알려줘.
+        1. 상의: \" 브랜드명 - 상품명 \" - 가격 \n 
+        2. 하의: \" 브랜드명 - 상품명 \" - 가격 \n 
+        3. 신발: \" 브랜드명 - 상품명 \" - 가격 \n 이런 형식으로 부가 설명없이 추천해줘`,
     ];
     const [messageStack, setMessageStack] = useState<MessageModel[]>([]);
 
     useEffect(() => {
-        handleSend("안녕하세요");
-    }, [])
+        if (resetButton === false) {
+            handleSend("안녕하세요");
+        }
+    }, [resetButton])
 
     const handleSend = async (message: string) => {
         // console.log(message);
@@ -64,35 +71,20 @@ const Chat = (props: Props) => {
             position: 'single'
         };
         const newMessageStack = [...messageStack, newMessage, newInstructionMsg];
+        
         setMessageStack(newMessageStack);
         setTyping(true);
-        setInstructionIdx(instructionIdx + 1);
         await processMessageToChatGPT(newMessageStack);
     }
 
     const reset = () => {
         setInstructionIdx(0);
+        props.setInsIndex(0);
         setMessageStack([]);
         setResetButton(false);
-        handleSend("안녕하세요");
+        // handleSend();
     }
-    /* 
-    이 펑션이 여기있는 메세지스택을 (내가 보낸 챗 포함)
-    1. 챗지피티 api 콜하고 
-    2. 답변받고, 
-    3. 메세지스택 업데이트
-    4. 그 외 것들 (typing status update)
-    5. (해야할 것) 구글 서치 엔진 api 콜해서 이미지 가져오기
-    6. (해야할 것) 그 이미지들 (링크들) 정리해서 props.setImageResults 로 링크들 다 넣어주기
-    7. (해야할 것) 이미지 다 받았으면, props.toggleSideBar 콜해서 사이드바 열어주기 
-    참고***
-    여기에서 인스트럭션(시나리오 / 몸무게 / 키 등 environment variable) 짜서 어딘가에 (어딘지모름) 넣어놔야합니다 
-    인스트럭션 하면서 저번에 말했던 {role, content} 형식으로 저장을 해놓을지 말지 이야기해봐야해용 
-    타입스크립트라 .... 만약 한다면 인터페이스 만들어주고 그걸로 쓰는게 나을듯
-
-    그리고 아마 시간이 안될것같긴하지만, 아싸리 백앤드 만들어서 간단하게 저장가능한 데이터베이스 구현할거면
-    유저 인포랑 같이 메세지 스택 같이 저장해두고 로그인할때 같이 가져와서 처음 messageStack state 디클레어할때 해주면 됩니다.
-    */
+    
     async function processMessageToChatGPT(messageStack: MessageModel[]) {
         let apiMessages = messageStack.map((messageObject: MessageModel) => {
             let role = "";
@@ -134,31 +126,41 @@ const Chat = (props: Props) => {
                 direction: "incoming",
                 position: "single"
             }
-            if (instructionIdx === 3) {
+            if (instructionIdx === 4) {
                 // 챗GPT 답변에서 데이터 넣어주기
                 // const upperData = 
                 // const bottomData = 
                 // const shoeData = 
                 console.log('===================')
                 console.log(responseContent);
-                props.setUpperQ();
-                props.setBottomQ();
-                props.setShoeQ();
+                let indices = [];
+                for(let i = 0; i < responseContent.length; i++) {
+                    if(responseContent[i] === '\"') {
+                        indices.push(i);
+                    }
+                }
+                // console.log(responseContent.substring(indices[0]+1, indices[1]))
+                // console.log(responseContent.substring(indices[2]+1, indices[3]))
+                // console.log(responseContent.substring(indices[4]+1, indices[5]))
+                props.setUpperQ(responseContent.substring(indices[0]+1, indices[1]));
+                props.setBottomQ(responseContent.substring(indices[2]+1, indices[3]));
+                props.setShoeQ(responseContent.substring(indices[4]+1, indices[5]));
+                setResetButton(true);
             }
             setMessageStack(
                 [...messageStack, response]
             )
             setTyping(false);
-        }).then(() => {
-            console.log(instructionIdx);
-            if(instructionIdx >= 3) {
-                setResetButton(true);
-            }
         })
+        setInstructionIdx(instructionIdx + 1);
+        props.setInsIndex(instructionIdx + 1);
     }
 
     return (
         <Container>
+
+
+            <div className="chatbot-container">
             {
                 resetButton ?
                     <div className="button" onClick={reset}>
@@ -166,8 +168,6 @@ const Chat = (props: Props) => {
                     </div>
                     : <></>
             }
-
-            <div className="chatbot-container">
                 <MainContainer style={{ border: "transparent" }}>
                     <ChatContainer>
                         <MessageList
@@ -177,7 +177,7 @@ const Chat = (props: Props) => {
                                 messageStack.filter((message) => message.sender !== "system")
                                     .map((message, i) => {
                                         return (
-                                            <div key={i}>
+                                            <>
                                                 {
                                                     message.sender === "ChatGPT" ?
                                                         <Message.Header sender={message.sender} /> :
@@ -187,15 +187,14 @@ const Chat = (props: Props) => {
                                                     className={message.direction === "outgoing" ? "outgoing-message" : "incoming-message"}
                                                     key={i} model={message}
                                                 />
-
-                                            </div>
+                                            </>
                                         )
                                     })
                             }
 
                         </MessageList>
                         <MessageInput
-                            placeholder={resetButton ? '다시하기 버튼을 눌러주세요!' :'채팅을 쳐보세요!'} attachButton={false} sendButton={false} disabled={instructionIdx > 3}
+                            placeholder={resetButton ? '다시하기 버튼을 눌러주세요!' :'채팅을 쳐보세요!'} attachButton={false} sendButton={false} disabled={instructionIdx > 4}
                             style={{ border: "transparent", height: "10%", fontSize: "larger" }}
                             onSend={handleSend} />
                     </ChatContainer>
@@ -231,17 +230,17 @@ const Container = styled.div`
 
     .button-container {
         position: fixed;
-        border: 2px dashed red;
+        /* border: 2px dashed red; */
         height: 10%;
         width: 10%;
         top: 15%;
-        left: 3%;
+        left: 12%;
         z-index: 9;
     }
     .button {
         position: fixed;
         top: 15%;
-        left: 3%;
+        left: 12%;
         align-items: center;
         display: flex;
         justify-content: center;

@@ -35,9 +35,9 @@ const Header: React.FC<IProps> = (props: IProps) => {
   }
   return (
     <Container>
-      <Link className="header-logo-wrapper" to="/">
+      <div className="header-logo-wrapper">
         <ScrewbarLogo className="header-logo" />
-      </Link>
+      </div>
       <div className="header-auth-buttons">
         {
           props.loggedIn ? <></> : <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>

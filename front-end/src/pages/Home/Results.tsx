@@ -4,9 +4,9 @@ type Props = {
     toggleSideBar: Function;
     sidebarOpened: boolean;
     imageResults: object;
-    upperItems: any;
-    bottomItems: any;
-    shoeItems: any;
+    upperItem: any;
+    bottomItem: any;
+    shoeItem: any;
 }
 
 const Results = (props: Props) => {
@@ -14,8 +14,6 @@ const Results = (props: Props) => {
     const handleClose = () => {
         props.toggleSideBar();
     }
-
-    const temp_result = require("./temp_results.json");
 
     return (
         <Container>
@@ -29,137 +27,41 @@ const Results = (props: Props) => {
 
             <div className="content-container">
                 {
-                    temp_result.length === 0
-                        ? <div className="no-results">
-                            아직 결과가 나오지 않았습니다! 챗봇과 이야기를 나누며 옷 추천을 받으세요!
-                        </div>
-                        : <>
+                    props.upperItem ?
+                        <>
                             <div className="results-tags">상의</div>
                             <div className="results-container">
-                                {
-                                    // props.upperItems.map((item: any, i: number) => {
-                                    //     return (
-                                    //         <div key={i} className="result-container">
-                                    //             <div className="content-image">
-                                    //                 <img src={item.imageLink} className="images" />
-                                    //             </div>
-                                    //             <div className="result-content-container">
-                                    //                 <div className="content-name">{item.name}</div>
-                                    //                 <div className="content-brand">{item.brand}</div>
-                                    //                 <a className="purchase-link" href={item.purchaseLink} target="_blank">구매하러 가기</a>
-                                    //             </div>
-                                    //         </div>
-                                    //     )
-                                    // })
-                                    temp_result.top.map((infoObject: any, i: number) => {
-                                        
-                                        return (
-                                            <div key={i} className="result-container">
-                                                <div className="content-image">
-                                                    <img src={infoObject.imageLink} className="images" />
-                                                </div>
-                                                <div className="result-content-container">
-                                                    <div className="content-name">{infoObject.name}</div>
-                                                    <div className="content-brand">{infoObject.brand}</div>
-                                                    <a className="purchase-link" href={infoObject.purchaseLink} target="_blank">구매하러 가기</a>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                            <br/><br/>
-                            <div className="results-tags">하의</div>
-                            <div className="results-container">
-                                {
-                                    // props.bottomItems.map((item: any, i: number) => {
-                                    //     return (
-                                    //         <div key={i} className="result-container">
-                                    //             <div className="content-image">
-                                    //                 <img src={item.imageLink} className="images" />
-                                    //             </div>
-                                    //             <div className="result-content-container">
-                                    //                 <div className="content-name">{item.name}</div>
-                                    //                 <div className="content-brand">{item.brand}</div>
-                                    //                 <a className="purchase-link" href={item.purchaseLink} target="_blank">구매하러 가기</a>
-                                    //             </div>
-                                    //         </div>
-                                    //     )
-                                    // })
-                                    temp_result.bottom.map((infoObject: any, i: number) => {
-                                        
-                                        return (
-                                            <div key={i} className="result-container">
-                                                <div className="content-image">
-                                                    <img src={infoObject.imageLink} className="images" />
-                                                </div>
-                                                <div className="result-content-container">
-                                                    <div className="content-name">{infoObject.name}</div>
-                                                    <div className="content-brand">{infoObject.brand}</div>
-                                                    <a className="purchase-link" href={infoObject.purchaseLink} target="_blank">구매하러 가기</a>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                            <br/><br/>
-                            <div className="results-tags">신발</div>
-                            <div className="results-container">
-                                {
-                                    // props.shoeItems.map((item: any, i: number) => {
-                                    //     return (
-                                    //         <div key={i} className="result-container">
-                                    //             <div className="content-image">
-                                    //                 <img src={item.imageLink} className="images" />
-                                    //             </div>
-                                    //             <div className="result-content-container">
-                                    //                 <div className="content-name">{item.name}</div>
-                                    //                 <div className="content-brand">{item.brand}</div>
-                                    //                 <a className="purchase-link" href={item.purchaseLink} target="_blank">구매하러 가기</a>
-                                    //             </div>
-                                    //         </div>
-                                    //     )
-                                    // }
-                                    temp_result.shoe.map((infoObject: any, i: number) => {
-                                        
-                                        return (
-                                            <div key={i} className="result-container">
-                                                <div className="content-image">
-                                                    <img src={infoObject.imageLink} className="images" />
-                                                </div>
-                                                <div className="result-content-container">
-                                                    <div className="content-name">{infoObject.name}</div>
-                                                    <div className="content-brand">{infoObject.brand}</div>
-                                                    <a className="purchase-link" href={infoObject.purchaseLink} target="_blank">구매하러 가기</a>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                            <br/><br/>
-                            <div className="results-tags">악세서리</div>
-                            <div className="results-container">
-                                {
-                                    temp_result.accessory.map((infoObject: any, i: number) => {
-                                        
-                                        return (
-                                            <div key={i} className="result-container">
-                                                <div className="content-image">
-                                                    <img src={infoObject.imageLink} className="images" />
-                                                </div>
-                                                <div className="result-content-container">
-                                                    <div className="content-name">{infoObject.name}</div>
-                                                    <div className="content-brand">{infoObject.brand}</div>
-                                                    <a className="purchase-link" href={infoObject.purchaseLink} target="_blank">구매하러 가기</a>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
+                                    <img src={props.upperItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                    <a href={props.upperItem.purchase_link} target="_blank">구매하러가기</a>
+                                    <div>{props.upperItem.name}</div>
                             </div>
                         </>
+                    :
+                        <div>죄송합니다. 상의 이미지를 찾지 못했습니다.</div>
+                }
+                {
+                    props.bottomItem ?
+                        <>
+                            <div className="results-tags">하의</div>
+                            <div className="results-container">
+                                    <img src={props.bottomItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                    <a href={props.bottomItem.purchase_link} target="_blank">구매하러가기</a>
+                            </div>
+                        </>
+                    :
+                        <div>죄송합니다. 하의 이미지를 찾지 못했습니다.</div>
+                }
+                {
+                    props.shoeItem ?
+                        <>
+                            <div className="results-tags">신발</div>
+                            <div className="results-container">
+                                    <img src={props.shoeItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                    <a href={props.shoeItem.purchase_link} target="_blank">구매하러가기</a>
+                            </div>
+                        </>
+                    :
+                        <div>죄송합니다. 신발 이미지를 찾지 못했습니다.</div>
                 }
             </div>
         </Container>
@@ -205,10 +107,12 @@ const Container = styled.div`
     .results-container {
         margin: 2%;
         /* border: 2px dashed black; */
-        display: grid;
-        grid-template-columns: repeat(2, 45%);
-        grid-template-rows: repeat(2, 17vh);
-        grid-gap: 5%;
+        
+
+        img {
+            width: 200px;
+            height: 200px;
+        }
     }
     .result-container {
         /* border: 2px dashed black; */

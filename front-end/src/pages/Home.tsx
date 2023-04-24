@@ -4,8 +4,11 @@ import Results from "./Home/Results";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const CGSE_API_KEY = 'AIzaSyD5i9n2SxJVQGDnTvmWGhSoMCtRyCy_mn0';
-const SEARCH_ENGINE_ID = '4360c8a430fd7457f';
+const CGSE_API_KEY = 'AIzaSyACk1j4ykLa2XigflStxoTGU8-3pCRngy4';
+const SEARCH_ENGINE_ID = 'd0e49ce76120644d5';
+
+// const SEARCH_ENGINE_ID = 'c6cc2e9a0126740b2';
+// const CGSE_API_KEY = 'AIzaSyD2S3BZEUrotemLhy91xRkAjk9VUvUYnIA';
 
 interface UserProps {
     id: string;
@@ -33,45 +36,58 @@ const Home = (props: Props) => {
     const [upperQ, setUpperQ] = useState<string>("");
     const [bottomQ, setBottomQ] = useState<string>("");
     const [shoeQ, setShoeQ] = useState<string>("");
-    const [upperItems, setUpperItems] = useState<any>();
-    const [bottomItems, setBottomItems] = useState<any>();
-    const [shoeItems, setShoeItems] = useState<any>();
+    const [upperItem, setUpperItem] = useState<any>();
+    const [bottomItem, setBottomItem] = useState<any>();
+    const [shoeItem, setShoeItem] = useState<any>();
+    const [insIndex, setInsIndex] = useState(0);
 
     useEffect(() => {
-        // async function fetchData() {
-        //     const upper_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${upperQ}&searchType=image&key=${CGSE_API_KEY}`)
-        //         .then((res) => {
-        //             console.log(res.data.items);
-        //         });
-        //     return upper_items;
-        // }
-        // const items = fetchData();
-        // setUpperItems(items);
-    }, [upperQ])
+        if (upperQ === "") return;
+        async function fetchData() {
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${upperQ}&searchType=image&key=${CGSE_API_KEY}`)
+                .then((res) => {
+                    // res.data.items[0].image.thumbnailLink - 사진링크
+                    // res.data.items[0].image.contextLink - 구매링크
+                    // upperQ - 이름
+                    setUpperItem({
+                        thumbnail_link: res.data.items[0].image.thumbnailLink,
+                        purchase_link: res.data.items[0].image.contextLink,
+                        name: upperQ
+                    })
+                });
+        }
+        fetchData();
+    }, [upperQ]);
 
     useEffect(() => {
-        // async function fetchData() {
-        //     const bottom_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${bottomQ}&searchType=image&key=${CGSE_API_KEY}`)
-        //         .then((res) => {
-        //             console.log(res.data.items);
-        //         });
-        //     return bottom_items;
-        // }
-        // const items = fetchData();
-        // setBottomItems(items);
-    }, [bottomQ])
+        if (bottomQ === "") return;
+        async function fetchData() {
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${bottomQ}&searchType=image&key=${CGSE_API_KEY}`)
+                .then((res) => {
+                    setBottomItem({
+                        thumbnail_link: res.data.items[0].image.thumbnailLink,
+                        purchase_link: res.data.items[0].image.contextLink,
+                        name: bottomQ
+                    })
+                });
+        }
+        fetchData();
+    }, [bottomQ]);
 
     useEffect(() => {
-        // async function fetchData() {
-        //     const shoe_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${shoeQ}&searchType=image&key=${CGSE_API_KEY}`)
-        //         .then((res) => {
-        //             console.log(res.data.items);
-        //         });
-        //     return shoe_items;
-        // }
-        // const items = fetchData();
-        // setShoeItems(items);
-    }, [shoeQ])
+        if (shoeQ === "") return;
+        async function fetchData() {
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${shoeQ}&searchType=image&key=${CGSE_API_KEY}`)
+                .then((res) => {
+                    setShoeItem({
+                        thumbnail_link: res.data.items[0].image.thumbnailLink,
+                        purchase_link: res.data.items[0].image.contextLink,
+                        name: shoeQ
+                    })
+                });
+        }
+        fetchData();
+    }, [shoeQ]);
 
     const toggleSideBar = () => {
         if(sidebarClassName.includes("opened")) {
@@ -87,6 +103,7 @@ const Home = (props: Props) => {
 
     return (
         <Container>
+            
             <div className="chat-container">
                 <Chat
                     toggleSideBar={toggleSideBar}
@@ -96,20 +113,25 @@ const Home = (props: Props) => {
                     setShoeQ={setShoeQ}
                     openAiKey={props.openAiKey}
                     user={props.user}
+                    setInsIndex={setInsIndex}
                 />
             </div>
             <div className={sidebarClassName}>
                 <Results
                     toggleSideBar={toggleSideBar}
                     sidebarOpened={sidebarOpened}
-                    upperItems={upperItems}
-                    bottomItems={bottomItems}
-                    shoeItems={shoeItems}
+                    upperItem={upperItem}
+                    bottomItem={bottomItem}
+                    shoeItem={shoeItem}
                     imageResults={imageResults}
                 />
             </div>
-            <div className="button-container">
-                <button className="button" onClick={toggleSideBar}>{sidebarOpened ? "결과 닫기" : "결과 보기"}</button>
+            <div className="button-container-1">
+                {
+                    insIndex > 4 
+                        ? <div className="button-1" onClick={toggleSideBar}>{sidebarOpened ? "결과 닫기" : "결과 보기"}</div>
+                        : <></>
+                }
             </div>
         </Container>
     )
@@ -142,12 +164,23 @@ const Container = styled.div`
     .closed {
         width: 0;
     }
-    .button {
+    .button-container-1 {
         position: fixed;
-        display: block;
-        top: 2%;
-        right: 10%;
-        z-index: 10 !important;
+        /* border: 2px dashed red; */
+        height: 10%;
+        width: 10%;
+        top: 3%;
+        left: 12%;
+        z-index: 9;
+    }
+    .button-1 {
+        position: fixed;
+        top: 15%;
+        left: 3%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        z-index: 100;
         background-color: #77e6ff;
         color: #000000;
         height: 5%;
@@ -155,8 +188,9 @@ const Container = styled.div`
         border-radius: 10px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         transition: 0.3s;
+        font-weight: 800;
     }
-    .button:hover {
+    .button-1:hover {
         cursor: pointer;
         scale: 1.05;
         transition: 0.3s;
