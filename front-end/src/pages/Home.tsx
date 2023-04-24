@@ -39,39 +39,39 @@ const Home = (props: Props) => {
     const [shoeItems, setShoeItems] = useState<any>();
 
     useEffect(() => {
-        async function fetchData() {
-            const upper_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${upperQ}&searchType=image&key=${CGSE_API_KEY}`)
-                .then((res) => {
-                    console.log(res.data.items);
-                });
-            return upper_items;
-        }
-        const items = fetchData();
-        setUpperItems(items);
+        // async function fetchData() {
+        //     const upper_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${upperQ}&searchType=image&key=${CGSE_API_KEY}`)
+        //         .then((res) => {
+        //             console.log(res.data.items);
+        //         });
+        //     return upper_items;
+        // }
+        // const items = fetchData();
+        // setUpperItems(items);
     }, [upperQ])
 
     useEffect(() => {
-        async function fetchData() {
-            const bottom_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${bottomQ}&searchType=image&key=${CGSE_API_KEY}`)
-                .then((res) => {
-                    console.log(res.data.items);
-                });
-            return bottom_items;
-        }
-        const items = fetchData();
-        setBottomItems(items);
+        // async function fetchData() {
+        //     const bottom_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${bottomQ}&searchType=image&key=${CGSE_API_KEY}`)
+        //         .then((res) => {
+        //             console.log(res.data.items);
+        //         });
+        //     return bottom_items;
+        // }
+        // const items = fetchData();
+        // setBottomItems(items);
     }, [bottomQ])
 
     useEffect(() => {
-        async function fetchData() {
-            const shoe_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${shoeQ}&searchType=image&key=${CGSE_API_KEY}`)
-                .then((res) => {
-                    console.log(res.data.items);
-                });
-            return shoe_items;
-        }
-        const items = fetchData();
-        setShoeItems(items);
+        // async function fetchData() {
+        //     const shoe_items = await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=4&q=${shoeQ}&searchType=image&key=${CGSE_API_KEY}`)
+        //         .then((res) => {
+        //             console.log(res.data.items);
+        //         });
+        //     return shoe_items;
+        // }
+        // const items = fetchData();
+        // setShoeItems(items);
     }, [shoeQ])
 
     const toggleSideBar = () => {

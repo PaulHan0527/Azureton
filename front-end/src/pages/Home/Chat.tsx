@@ -18,29 +18,30 @@ type Props = {
     setBottomQ: Function;
     setShoeQ: Function;
     openAiKey: string;
-    user: UserProps|undefined;
+    user: UserProps | undefined;
 }
 
 interface UserProps {
     id: string;
     password: string;
     info: {
-      weight: number;
-      height: number;
-      gender: string;
-      age: number;
+        weight: number;
+        height: number;
+        gender: string;
+        age: number;
     };
-  };
+};
 
 const Chat = (props: Props) => {
     const [typing, setTyping] = useState(false);
     const [instructionIdx, setInstructionIdx] = useState(0);
+    const [resetButton, setResetButton] = useState(false);
     const { weight, height, gender, age } = props.user ? props.user.info : { weight: 0, height: 0, gender: "", age: 0 };
     const instruction_msg_list = [
         "앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다.' 라고 답변해줘. 그리고 어떤 스타일과 상황에 필요한지 친절하게 물어봐.",
         "그 상황에서의 날씨를 친절하게 물어봐줘",
-        "가격대를 친절하게 물어봐줘.",
-        `길게 말하지 말고 ${weight}kg ${height}cm, ${age}세 ${gender}이 해당 스타일, 상황, 날씨에 맞는 스타일링을 상의 +하의 +신발 형식으로 추천해줘. 예를 들어) 상의: 브랜드명 - 상품명`,
+        "원하는 옷의 가격대를 친절하게 물어봐줘.",
+        `길게 말하지 말고 ${weight}kg ${height}cm, ${age}세 ${gender}이 해당 스타일, 상황, 날씨에 맞는 상의, 하의, 신발을 추천해줘. 예를 들어) 상의: [브랜드명 - 상품명] 형식으로 알려줘`,
     ];
     const [messageStack, setMessageStack] = useState<MessageModel[]>([]);
 
@@ -65,10 +66,16 @@ const Chat = (props: Props) => {
         const newMessageStack = [...messageStack, newMessage, newInstructionMsg];
         setMessageStack(newMessageStack);
         setTyping(true);
-        setInstructionIdx(instructionIdx+1);
+        setInstructionIdx(instructionIdx + 1);
         await processMessageToChatGPT(newMessageStack);
     }
 
+    const reset = () => {
+        setInstructionIdx(0);
+        setMessageStack([]);
+        setResetButton(false);
+        handleSend("안녕하세요");
+    }
     /* 
     이 펑션이 여기있는 메세지스택을 (내가 보낸 챗 포함)
     1. 챗지피티 api 콜하고 
@@ -116,8 +123,10 @@ const Chat = (props: Props) => {
             },
             body: JSON.stringify(apiRequestBody)
         }).then((data) => {
+            console.log(data);
             return data.json();
         }).then((data) => {
+
             let responseContent = data.choices[0].message.content;
             let response: MessageModel = {
                 message: responseContent,
@@ -138,11 +147,24 @@ const Chat = (props: Props) => {
                 [...messageStack, response]
             )
             setTyping(false);
+        }).then(() => {
+            console.log(instructionIdx);
+            if(instructionIdx >= 3) {
+                setResetButton(true);
+            }
         })
     }
 
     return (
         <Container>
+            {
+                resetButton ?
+                    <div className="button" onClick={reset}>
+                        다시하기
+                    </div>
+                    : <></>
+            }
+
             <div className="chatbot-container">
                 <MainContainer style={{ border: "transparent" }}>
                     <ChatContainer>
@@ -150,28 +172,28 @@ const Chat = (props: Props) => {
                             typingIndicator={typing ? <TypingIndicator content="ChatGPT is typing" /> : null}
                         >
                             {
-                                messageStack.filter((message) =>  message.sender !== "system")
-                                .map((message, i) => {
-                                    return (
-                                        <div key={i}>
-                                            {
-                                                message.sender === "ChatGPT" ?
-                                                <Message.Header sender={message.sender}/> :
-                                                <></>
-                                            }
-                                            <Message
-                                                className={message.direction === "outgoing" ? "outgoing-message" : "incoming-message"}
-                                                key={i} model={message} 
+                                messageStack.filter((message) => message.sender !== "system")
+                                    .map((message, i) => {
+                                        return (
+                                            <div key={i}>
+                                                {
+                                                    message.sender === "ChatGPT" ?
+                                                        <Message.Header sender={message.sender} /> :
+                                                        <></>
+                                                }
+                                                <Message
+                                                    className={message.direction === "outgoing" ? "outgoing-message" : "incoming-message"}
+                                                    key={i} model={message}
                                                 />
 
-                                        </div>
-                                    )
-                                })
+                                            </div>
+                                        )
+                                    })
                             }
 
                         </MessageList>
                         <MessageInput
-                            placeholder='채팅을 쳐보세요!' attachButton={false} sendButton={false}
+                            placeholder={resetButton ? '다시하기 버튼을 눌러주세요!' :'채팅을 쳐보세요!'} attachButton={false} sendButton={false} disabled={instructionIdx > 3}
                             style={{ border: "transparent", height: "10%", fontSize: "larger" }}
                             onSend={handleSend} />
                     </ChatContainer>
@@ -203,5 +225,37 @@ const Container = styled.div`
     }
     .incoming-message {
         font-size: larger;
+    }
+
+    .button-container {
+        position: fixed;
+        border: 2px dashed red;
+        height: 10%;
+        width: 10%;
+        top: 15%;
+        left: 3%;
+        z-index: 9;
+    }
+    .button {
+        position: fixed;
+        top: 15%;
+        left: 3%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        z-index: 100;
+        background-color: #77e6ff;
+        color: #000000;
+        height: 5%;
+        width: 7%;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        transition: 0.3s;
+        font-weight: 800;
+    }
+    .button:hover {
+        cursor: pointer;
+        scale: 1.05;
+        transition: 0.3s;
     }
 `;

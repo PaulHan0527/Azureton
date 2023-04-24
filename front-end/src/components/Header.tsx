@@ -44,7 +44,7 @@ const Header: React.FC<IProps> = (props: IProps) => {
         {
           props.loggedIn ? 
           <>
-            <div>{ props.user && props.user.id }님 환엽합니다.</div>
+            <div>{ props.user && props.user.id }님 환영합니다.</div>
             <button type="button" className="header-signin-button" onClick={handleLogOutButton}>로그아웃</button>
           </>
           :
