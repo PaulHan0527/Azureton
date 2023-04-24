@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { ReactComponent as ScrewbarLogo } from "../public/logo.svg";
+import screwbarLogo from "../public/logo.jpg";
 import palette from "../styles/palette";
 
 interface UserProps {
@@ -37,7 +37,7 @@ const Header: React.FC<IProps> = (props: IProps) => {
   return (
     <Container>
       <div className="header-logo-wrapper">
-        <ScrewbarLogo className="header-logo" />
+        <img className="header-logo" src={screwbarLogo} alt="logo" />
       </div>
       <div className="header-auth-buttons">
         {
@@ -77,10 +77,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     .header-logo {
-      width: 100px;
-      height: 100%;
-      padding-top: 20px;
-      margin-right: 6px;
+      width: 70px;
     }
   }
 

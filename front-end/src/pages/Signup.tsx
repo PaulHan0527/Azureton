@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ReactComponent as ScrewbarLogo } from "../public/logo.svg";
+import screwbarLogo from "../public/logo.jpg";
 
 interface UserInfo {
   id: string;
@@ -67,7 +67,7 @@ const Signup: React.FC = () => {
     <Container onSubmit={onSubmit}>
       <div className='signup-form-wrapper'>
         <div className='signup-form-logo-wrapper'>
-          <ScrewbarLogo />
+          <img src={screwbarLogo} alt='logo' />
         </div>
         <div className='input-wrapper'>
           <div className='input-title'>
@@ -141,9 +141,12 @@ const Container = styled.form`
     padding: 20px;
 
     .signup-form-logo-wrapper{
-      svg {
-        width: 100%;
-        height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 400px;
+        height: 160px;
       }
     }
 

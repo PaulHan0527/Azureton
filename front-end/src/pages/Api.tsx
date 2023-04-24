@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ReactComponent as ScrewbarLogo } from "../public/logo.svg";
+import screwbarLogo from "../public/logo.jpg";
 
 type Props = {
     setOpenAiKey: Function;
@@ -30,7 +30,7 @@ const Api = (props: Props) => {
         <Container>
             <div className="apikey-form-wrapper">
                 <div className='apikey-form-logo-wrapper'>
-                    <ScrewbarLogo />
+                    <img src={screwbarLogo} />
                 </div>
                 <div className='input-wrapper'>
                     <div className='input-title'>
@@ -55,18 +55,6 @@ const Api = (props: Props) => {
                 </div>
             </div>
         </Container>
-        // <Container>
-        //     <div className="key-container">
-        //         <h1 className="key-title">Open AI API Token</h1>
-
-        //         <input className="key-input" onChange={handleOpenAIChange} onKeyDown={handleKeyDown} value={input}/>
-        //         <button className="key-button"onClick={handleSubmit} >확인</button>
-        //     </div>
-
-        //     <div className="instruction-container">
-        //         <div><a href="https://platform.openai.com/" target="_blank">OpenAI</a> 플랫폼으로 이동하여 로그인하여 API Token을 생성해주시고 넣어주세요.</div>
-        //     </div>
-        // </Container>
     )
 }
 export default Api;
@@ -87,9 +75,9 @@ const Container = styled.div`
     padding: 20px;
 
     .apikey-form-logo-wrapper{
-      svg {
-        width: 100%;
-        height: 300px;
+      img {
+        width: 400px;
+        height: 160px;
       }
     }
 
@@ -139,36 +127,3 @@ const Container = styled.div`
     }
   }
 `;
-
-// const Container = styled.div`
-//     /* border: 2px dashed red; */
-//     height: 80vh;
-//     width: 80vw;
-//     margin: auto;
-
-//     .key-container {
-//         /* border: 2px dashed yellow; */
-//         margin: 5%;
-//         height: 40vh;
-//     }
-//     .key-title {
-//         margin-top: 2%;
-//         margin-bottom: 2%;
-//     }
-//     .key-input {
-//         width: 100%;
-//         height: 5vh;
-//     }
-//     .key-button {
-//         float: right;
-//         margin-top: 2%;
-//     }
-
-//     .instruction-container {
-//         border: 2px solid black;
-//         height: 30vh;
-//         padding: 3%;
-//         box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.12);
-//         border-radius: 10px;
-//     }
-// `;

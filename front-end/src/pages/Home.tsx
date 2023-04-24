@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import palette from "../styles/palette";
 
-const CGSE_API_KEY = 'AIzaSyACk1j4ykLa2XigflStxoTGU8-3pCRngy4';
-const SEARCH_ENGINE_ID = 'd0e49ce76120644d5';
+// const CGSE_API_KEY = 'AIzaSyACk1j4ykLa2XigflStxoTGU8-3pCRngy4';
+// const SEARCH_ENGINE_ID = 'd0e49ce76120644d5';
 
-// const SEARCH_ENGINE_ID = 'c6cc2e9a0126740b2';
-// const CGSE_API_KEY = 'AIzaSyD2S3BZEUrotemLhy91xRkAjk9VUvUYnIA';
+const SEARCH_ENGINE_ID = 'c6cc2e9a0126740b2';
+const CGSE_API_KEY = 'AIzaSyD2S3BZEUrotemLhy91xRkAjk9VUvUYnIA';
 
 interface UserProps {
     id: string;
