@@ -41,13 +41,13 @@ const Chat = (props: Props) => {
     const { weight, height, gender, age } = props.user ? props.user.info : { weight: 0, height: 0, gender: "", age: 0 };
     const instruction_msg_list = [
         `너는 패션 스타일링 전문가야, 사용자는 ${weight}kg ${height}cm, ${age}세 ${gender}이야, 앞으로 사용자가 인사하면 너는 '저는 패션 스타일링 전문가로서 고객 맞춤형 스타일을 추천해드리겠습니다. 어떤 상황에서 입고갈지 말씀해주세요.' 라고 답변해줘.`,
-        "날씨만 짧게 질문해줘. 다른 것 묻지 말고 조언하지 말아줘.",
-        `조언하지 말고 ${gender}인 사용자가 어떤 패션 스타일을 원하는지 짧게 질문해줘.`,
-        "조언하지 말고 사용자가 원하는 가격대만 짧게 질문해줘. 예시는 들지 말아줘",
+        "절대 다른 것 묻지 말고 조언하지 말고 날씨만 짧게 질문해줘.",
+        `절대 조언하지 말고 ${gender}인 사용자가 어떤 패션 스타일을 원하는지 짧게 질문해줘.`,
+        "절대 조언하지 말고 사용자가 원하는 가격대만 짧게 질문해줘. 예시는 들지 말아줘",
         `한 줄로 사용자의 몸무게와 키와 나이와 성별을 간단하게 말해줘. 짧게 한 줄로 모든 상황에 맞게 추천해주겠다고 말해. ${weight}kg ${height}cm, ${age}세 ${gender}이 해당 스타일, 상황, 날씨에 맞는 상의, 하의, 신발을 하나씩만 유명한 브랜드 위주로 추천해줘. 브랜드명은 영어로 알려줘.
-        1. 상의: \" 브랜드명 - 상품명 \" (가격) > 짧은 상품 설명 \n 
-        2. 하의: \" 브랜드명 - 상품명 \" (가격) > 짧은 상품 설명 \n 
-        3. 신발: \" 브랜드명 - 상품명 \" (가격) > 짧은 상품설명 \n 이런 형식으로 부가 설명없이 추천해줘`,
+        1. 상의: " 브랜드명 - 상품명 " (가격) > 짧은 상품 설명 \n 
+        2. 하의: " 브랜드명 - 상품명 " (가격) > 짧은 상품 설명 \n 
+        3. 신발: " 브랜드명 - 상품명 " (가격) > 짧은 상품 설명 \n 이런 형식으로 부가 설명없이 추천해줘`,
     ];
     const [messageStack, setMessageStack] = useState<MessageModel[]>([]);
 
@@ -130,7 +130,7 @@ const Chat = (props: Props) => {
                 let introductionIndices = [];
                 let nextLineIndices = [];
                 for(let i = 0; i < responseContent.length; i++) {
-                    if (responseContent[i] === '\"') {
+                    if (responseContent[i] === '"') {
                         nameIndices.push(i);
                     }
                     else if (responseContent[i] === '(' || responseContent[i] === ')') {

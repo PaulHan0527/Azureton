@@ -33,7 +33,6 @@ const Home = (props: Props) => {
 
     const [sidebarClassName, setSidebarClassName] = useState("sidebar-container closed");
     const [sidebarOpened, setSidebarOpened] = useState(false);
-    const [imageResults, setImageResults] = useState({}); // string array of image links
     const [upperQ, setUpperQ] = useState<any>("");
     const [bottomQ, setBottomQ] = useState<any>("");
     const [shoeQ, setShoeQ] = useState<any>("");
@@ -110,7 +109,13 @@ const Home = (props: Props) => {
 
     return (
         <Container>
-            
+            <div className="button-container-1">
+                {
+                    insIndex > 4 
+                        ? <div className="button-1" onClick={toggleSideBar}>{sidebarOpened ? "결과 닫기" : "결과 보기"}</div>
+                        : <></>
+                }
+            </div>
             <div className="chat-container">
                 <Chat
                     toggleSideBar={toggleSideBar}
@@ -130,15 +135,7 @@ const Home = (props: Props) => {
                     upperItem={upperItem}
                     bottomItem={bottomItem}
                     shoeItem={shoeItem}
-                    imageResults={imageResults}
                 />
-            </div>
-            <div className="button-container-1">
-                {
-                    insIndex > 4 
-                        ? <div className="button-1" onClick={toggleSideBar}>{sidebarOpened ? "결과 닫기" : "결과 보기"}</div>
-                        : <></>
-                }
             </div>
         </Container>
     )

@@ -3,7 +3,6 @@ import styled from "styled-components";
 type Props = {
     toggleSideBar: Function;
     sidebarOpened: boolean;
-    imageResults: object;
     upperItem: any;
     bottomItem: any;
     shoeItem: any;
@@ -31,8 +30,10 @@ const Results = (props: Props) => {
                         props.upperItem ?
                             <>
                                 <div className="results-container">
-                                    <div className="item-img">
-                                        <img src={props.upperItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                    <div className="item-img-wrapper">
+                                        <div className="item-img">
+                                            <img src={props.upperItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                        </div>
                                     </div>
                                     <div className="item-introduction-wrapper">
                                         <div className="item-name">{props.upperItem.name}</div>
@@ -58,8 +59,10 @@ const Results = (props: Props) => {
                         props.bottomItem ?
                             <>
                                 <div className="results-container">
-                                    <div className="item-img">
-                                        <img src={props.bottomItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                    <div className="item-img-wrapper">
+                                        <div className="item-img">
+                                            <img src={props.bottomItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                        </div>
                                     </div>
                                     <div className="item-introduction-wrapper">
                                         <div className="item-name">{props.bottomItem.name}</div>
@@ -83,8 +86,10 @@ const Results = (props: Props) => {
                         props.shoeItem ?
                             <>
                                 <div className="results-container">
-                                    <div className="item-img">
-                                        <img src={props.shoeItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                    <div className="item-img-wrapper">
+                                        <div className="item-img">
+                                            <img src={props.shoeItem.thumbnail_link} alt="no-img" referrerPolicy="no-referrer" />
+                                        </div>
                                     </div>
                                     <div className="item-introduction-wrapper">
                                         <div className="item-name">{props.shoeItem.name}</div>
@@ -140,7 +145,7 @@ const Container = styled.div`
         padding-left: 3%;
         width: 90%;
         margin-left: 3%;
-        padding-bottom: 2%;
+        padding-bottom: 1%;
         border-bottom: 1px solid black;
     }
 
@@ -149,9 +154,12 @@ const Container = styled.div`
         display: flex;
         margin-bottom: 20px;
         /* border: 2px dashed black; */
-        .item-img {
-            width: 200px;
-            /* height: 170px; */
+        .item-img-wrapper {
+            width: 25%;
+            .item-img {
+                width: 200px;
+                /* height: 170px; */
+            }
         }
         .item-introduction-wrapper {
             div {
