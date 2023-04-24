@@ -5,11 +5,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import palette from "../styles/palette";
 
-// const CGSE_API_KEY = 'AIzaSyACk1j4ykLa2XigflStxoTGU8-3pCRngy4';
-// const SEARCH_ENGINE_ID = 'd0e49ce76120644d5';
-
-const SEARCH_ENGINE_ID = 'c6cc2e9a0126740b2';
-const CGSE_API_KEY = 'AIzaSyD2S3BZEUrotemLhy91xRkAjk9VUvUYnIA';
+// SEARCH_ENGINE_ID 와 GSE_API_KEY 값을 직접 바꿔서 넣어주세요.
+const SEARCH_ENGINE_ID = process.env.SEARCH_ENGINE_ID;
+const GSE_API_KEY = process.env.GSE_API_KEY;
 
 interface UserProps {
     id: string;
@@ -44,7 +42,7 @@ const Home = (props: Props) => {
     useEffect(() => {
         if (upperQ === "") return setUpperQ("");
         async function fetchData() {
-            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${upperQ.name}&searchType=image&key=${CGSE_API_KEY}`)
+            await axios.get(`https://customsearch.googleapis.com/customsearch/v1?cx=${SEARCH_ENGINE_ID}&num=1&q=${upperQ.name}&searchType=image&key=${GSE_API_KEY}`)
                 .then((res) => {
                     // res.data.items[0].image.thumbnailLink - 사진링크
                     // res.data.items[0].image.contextLink - 구매링크
