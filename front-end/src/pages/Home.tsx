@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Chat from "./Home/Chat";
 import Results from "./Home/Results";
 import { useState, useEffect } from "react";
-import dotenv from "dotenv";
 import axios from "axios";
 
 const CGSE_API_KEY = 'AIzaSyD5i9n2SxJVQGDnTvmWGhSoMCtRyCy_mn0';

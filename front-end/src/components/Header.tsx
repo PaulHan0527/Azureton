@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import { ReactComponent as ScrewbarLogo } from "../public/logo.svg";
 
 interface UserProps {
   id: string;
@@ -34,9 +35,9 @@ const Header: React.FC<IProps> = (props: IProps) => {
   }
   return (
     <Container>
-      <div className="header-logo-wrapper">
-        <div className="header-logo">Logo</div>
-      </div>
+      <Link className="header-logo-wrapper" to="/">
+        <ScrewbarLogo className="header-logo" />
+      </Link>
       <div className="header-auth-buttons">
         {
           props.loggedIn ? <></> : <button type="button" className="header-signup-button" onClick={() => navigate('/signup')}>회원가입</button>
@@ -75,6 +76,9 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     .header-logo {
+      width: 100px;
+      height: 100%;
+      padding-top: 20px;
       margin-right: 6px;
     }
   }
